@@ -1,34 +1,29 @@
 <?php
 class Database {
-    private static $conn = null;
-
     public static function connect() {
-        if (self::$conn === null) {
-            // Lấy biến môi trường DATABASE_URL từ Heroku
-            $db_url = getenv("DATABASE_URL");
+        $url = getenv('DATABASE_URL');
 
-            if (!$db_url) {
-                die("DATABASE_URL chưa được thiết lập.");
-            }
-
-            $url = parse_url($db_url);
-
-            $host = $url["host"];
-            $port = $url["port"];
-            $user = $url["user"];
-            $pass = $url["pass"];
-            $dbname = ltrim($url["path"], "/");
-
-            try {
-                // Tạo kết nối PDO đến PostgreSQL
-                self::$conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $pass);
-                self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                die("Kết nối cơ sở dữ liệu thất bại: " . $e->getMessage());
-            }
+        if (!$url) {
+            die("❌ DATABASE_URL chưa được thiết lập.");
         }
 
-        return self::$conn;
+        $dbparts = parse_url($url);
+
+        $host = $dbparts['host'];
+        $port = $dbparts['port'];
+        $user = $dbparts['user'];
+        $pass = $dbparts['pass'];
+        $dbname = ltrim($dbparts['path'], '/');
+
+        try {
+            $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
+            $pdo = new PDO($dsn, $user, $pass);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $pdo;
+        } catch (PDOException $e) {
+            die("❌ Kết nối DB thất bại: " . $e->getMessage());
+        }
     }
 }
+
 ?>
