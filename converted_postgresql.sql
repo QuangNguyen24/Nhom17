@@ -1,101 +1,51 @@
--- phpMyAdmin SQL Dump
--- version 5.2.2
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Generation Time: Jun 11, 2025 at 03:52 PM
--- Server version: 8.0.30
--- PHP Version: 8.1.10
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+CREATE TABLE "banners" (
+  "id" int NOT NULL,
+  "image" varchar(255)  NOT NULL,
+  "title" varchar(255)  DEFAULT NULL,
+  "link" varchar(255)  DEFAULT NULL,
+  "is_active" BOOLEAN DEFAULT '1',
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `shop`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `banners`
---
-
-CREATE TABLE `banners` (
-  `id` int NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `banners`
---
-
-INSERT INTO `banners` (`id`, `image`, `title`, `link`, `is_active`, `created_at`) VALUES
+INSERT INTO "banners" ("id", "image", "title", "link", "is_active", "created_at") VALUES
 (24, 'images/banner/1749545683_blackFriday.png', 'blackfriday', '', 1, '2025-06-10 08:54:43'),
 (25, 'images/banner/1749574448_sales_banners.jpg', 'bigsale', '', 1, '2025-06-10 16:54:08'),
 (26, 'images/banner/1749575911_sale.jpg', 'sale', '', 1, '2025-06-10 17:18:31');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `brands`
---
 
-CREATE TABLE `brands` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "brands" (
+  "id" int NOT NULL,
+  "name" varchar(255)  NOT NULL
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `brands`
---
 
-INSERT INTO `brands` (`id`, `name`) VALUES
+INSERT INTO "brands" ("id", "name") VALUES
 (19, 'Nexorevn Inc.'),
 (20, 'Aula'),
 (21, 'Asus'),
 (22, 'Logitech');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `cart`
---
 
-CREATE TABLE `cart` (
-  `id` int NOT NULL,
-  `user_id` int DEFAULT NULL,
-  `product_id` int DEFAULT NULL,
-  `quantity` int DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "cart" (
+  "id" int NOT NULL,
+  "user_id" int DEFAULT NULL,
+  "product_id" int DEFAULT NULL,
+  "quantity" int DEFAULT '1'
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `categories`
---
 
-CREATE TABLE `categories` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `parent_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "categories" (
+  "id" int NOT NULL,
+  "name" varchar(255)  NOT NULL,
+  "parent_id" int DEFAULT NULL
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `categories`
---
 
-INSERT INTO `categories` (`id`, `name`, `parent_id`) VALUES
+INSERT INTO "categories" ("id", "name", "parent_id") VALUES
 (15, 'Mô hình', NULL),
 (16, 'Mô hình Dragonball', 15),
 (17, 'Mô hình Naruto', 15),
@@ -114,51 +64,37 @@ INSERT INTO `categories` (`id`, `name`, `parent_id`) VALUES
 (30, 'Màn hình', NULL),
 (31, 'Màn hình Asus', 30);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `contacts`
---
 
-CREATE TABLE `contacts` (
-  `id` int NOT NULL,
-  `fullname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "contacts" (
+  "id" int NOT NULL,
+  "fullname" varchar(255)  DEFAULT NULL,
+  "email" varchar(255)  DEFAULT NULL,
+  "message" text ,
+  "created_at" datetime DEFAULT NULL
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `contacts`
---
 
-INSERT INTO `contacts` (`id`, `fullname`, `email`, `message`, `created_at`) VALUES
+INSERT INTO "contacts" ("id", "fullname", "email", "message", "created_at") VALUES
 (5, 'Phúc', 'honghongphuc12345@gmail.com', 'Shop có cửa hàng ở TP.HCM không hay chỉ online?', '2025-06-11 22:20:52');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `orders`
---
 
-CREATE TABLE `orders` (
-  `id` int NOT NULL,
-  `user_id` int DEFAULT NULL,
-  `total_price` decimal(10,2) NOT NULL,
-  `status` enum('đang chờ','đã xác nhận','đang vận chuyển','đã nhận hàng','hủy') COLLATE utf8mb4_unicode_ci DEFAULT 'đang chờ',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `fullname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `method_payment` enum('tiền mặt','chuyển khoản','vnpay') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'tiền mặt'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "orders" (
+  "id" int NOT NULL,
+  "user_id" int DEFAULT NULL,
+  "total_price" decimal(10,2) NOT NULL,
+  "status" enum('đang chờ','đã xác nhận','đang vận chuyển','đã nhận hàng','hủy')  DEFAULT 'đang chờ',
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  "fullname" varchar(255)  NOT NULL,
+  "email" varchar(255)  NOT NULL,
+  "phone" varchar(10)  NOT NULL,
+  "address" text  NOT NULL,
+  "method_payment" enum('tiền mặt','chuyển khoản','vnpay') CHARACTER SET utf8mb4  DEFAULT 'tiền mặt'
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `orders`
---
 
-INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created_at`, `fullname`, `email`, `phone`, `address`, `method_payment`) VALUES
+INSERT INTO "orders" ("id", "user_id", "total_price", "status", "created_at", "fullname", "email", "phone", "address", "method_payment") VALUES
 (25, 14, 10000000.00, 'đã xác nhận', '2025-06-11 06:48:27', 'Phúc', 'honghongphuc12345@gmail.com', '0932088279', 'Gò Vấp', 'vnpay'),
 (26, 14, 2990000.00, 'đã xác nhận', '2025-06-11 09:02:53', 'Phúc', 'honghongphuc12345@gmail.com', '0932088279', 'gv', 'tiền mặt'),
 (27, 14, 2590000.00, 'đã xác nhận', '2025-06-11 09:03:19', 'Phúc', 'honghongphuc12345@gmail.com', '0932088279', 'gv', 'chuyển khoản'),
@@ -166,56 +102,42 @@ INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created_at`, `f
 (29, 14, 4490000.00, 'đã xác nhận', '2025-06-11 09:06:06', 'Phúc', 'honghongphuc12345@gmail.com', '0932088279', 'gv', 'vnpay'),
 (30, 14, 7500000.00, 'đang chờ', '2025-06-11 14:55:14', 'Nhiêu Hồng Phúc', 'honghongphuc12345@gmail.com', '0932088279', 'Gò Vấp', 'tiền mặt');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `order_details`
---
 
-CREATE TABLE `order_details` (
-  `id` int NOT NULL,
-  `order_id` int DEFAULT NULL,
-  `product_id` int DEFAULT NULL,
-  `quantity` int DEFAULT NULL,
-  `subtotal` decimal(10,2) NOT NULL,
-  `price` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "order_details" (
+  "id" int NOT NULL,
+  "order_id" int DEFAULT NULL,
+  "product_id" int DEFAULT NULL,
+  "quantity" int DEFAULT NULL,
+  "subtotal" decimal(10,2) NOT NULL,
+  "price" decimal(10,2) DEFAULT NULL
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `order_details`
---
 
-INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `quantity`, `subtotal`, `price`) VALUES
+INSERT INTO "order_details" ("id", "order_id", "product_id", "quantity", "subtotal", "price") VALUES
 (17, 26, 53, 1, 2990000.00, 2990000.00),
 (18, 27, 52, 1, 2590000.00, 2590000.00),
 (19, 28, 51, 1, 4490000.00, 4490000.00),
 (20, 29, 51, 1, 4490000.00, 4490000.00),
 (21, 30, 47, 1, 7500000.00, 7500000.00);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `products`
---
 
-CREATE TABLE `products` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `price` decimal(10,2) NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `category_id` int DEFAULT NULL,
-  `is_featured` tinyint(1) DEFAULT '0',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `discount_price` decimal(10,2) DEFAULT NULL,
-  `brand_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "products" (
+  "id" int NOT NULL,
+  "name" varchar(255)  DEFAULT NULL,
+  "description" text ,
+  "price" decimal(10,2) NOT NULL,
+  "image" varchar(255)  DEFAULT NULL,
+  "category_id" int DEFAULT NULL,
+  "is_featured" BOOLEAN DEFAULT '0',
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  "discount_price" decimal(10,2) DEFAULT NULL,
+  "brand_id" int DEFAULT NULL
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `products`
---
 
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `category_id`, `is_featured`, `created_at`, `discount_price`, `brand_id`) VALUES
+INSERT INTO "products" ("id", "name", "description", "price", "image", "category_id", "is_featured", "created_at", "discount_price", "brand_id") VALUES
 (21, 'Son Goku Super Saiyan Blue - Biểu Tượng Của Sức Mạnh Thần Thánh & Sự Tiến Hóa Vượt Bậc', '<h3><strong>Chiêm ngưỡng đỉnh cao của sức mạnh Saiyan với mô hình Son Goku Super Saiyan Blue tinh xảo này – một kiệt tác điêu khắc tái hiện chân thực hình thái mạnh mẽ, điềm tĩnh và đầy uy lực của anh hùng vĩ đại nhất vũ trụ 7!</strong></h3><p>Super Saiyan Blue hay Super Saiyan God Super Saiyan, đại diện cho một bước tiến hóa phi thường, kết hợp sự điềm tĩnh của Thần và sức mạnh bùng nổ của Super Saiyan. Mô hình này không chỉ là một vật phẩm trưng bày, mà còn là lời nhắc nhở về quá trình luyện tập không ngừng nghỉ và ý chí kiên định của Goku. Từng đường nét trên mô hình đều được chế tác với sự tỉ mỉ tối đa, mang đến một tác phẩm nghệ thuật có giá trị sưu tầm cao.</p><p>&nbsp;</p><h3><strong>Đặc điểm nổi bật &amp; Nét đẹp hình ảnh</strong></h3><h4><i>Sự Tinh Túy Của Hình Thái Super Saiyan Blue</i></h4><ul><li><strong>Đặc tính:</strong> Màu xanh dương đặc trưng của mái tóc và ánh hào quang được tái tạo rực rỡ, biểu thị sự kiểm soát hoàn hảo năng lượng thần thánh. Khuôn mặt Goku thể hiện vẻ tập trung cao độ, điềm tĩnh nhưng ẩn chứa sự quyết tâm sắt đá, đúng như tính cách của anh ở trạng thái SSB.</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh phần đầu và khuôn mặt, làm nổi bật màu tóc xanh lam và thần thái của Goku. Ánh sáng chiếu vào mô hình để tạo hiệu ứng phát sáng cho tóc.</li></ul><h4><i>Động Tác Uy Lực, Sẵn Sàng Bùng Nổ</i></h4><ul><li><strong>Đặc tính:</strong> Mô hình được tạo dáng trong một tư thế đầy tính biểu tượng, như đang chuẩn bị tung đòn cuối cùng, tích tụ năng lượng Kamehameha, hoặc thực hiện một pha giao chiến tốc độ cao. Các nếp gấp trên võ phục và cơ bắp căng phồng đều góp phần tạo nên cảm giác chuyển động và sức mạnh tiềm ẩn.</li><li><strong>Hình ảnh:</strong> Chụp toàn bộ mô hình từ các góc độ động, thể hiện tư thế bùng nổ của Goku. Có thể sử dụng hiệu ứng ánh sáng hoặc nền để tăng kịch tính.</li></ul><h4><i>Chi Tiết Trang Phục Chân Thực Đến Từng Sợi Vải</i></h4><ul><li><strong>Đặc tính:</strong> Dù là võ phục cam truyền thống hay bộ giáp xanh của Whis, từng đường nét trên trang phục đều được điêu khắc sống động, với các nếp nhăn, đường may, và logo (nếu có) được tái hiện chính xác. Điều này mang lại cảm giác chân thực như trang phục thật đang bị ảnh hưởng bởi luồng khí Ki.</li><li><strong>Hình ảnh:</strong> Cận cảnh chi tiết trang phục, đặc biệt là các đường may hoặc nếp gấp vải, làm nổi bật độ tỉ mỉ.</li></ul><h4><i>Chất Liệu Cao Cấp &amp; Hoàn Thiện Sơn Thủ Công Đỉnh Cao</i></h4><ul><li><strong>Đặc tính:</strong> Được chế tác từ PVC và ABS chất lượng cao, đảm bảo độ bền và giữ màu sắc theo thời gian. Lớp sơn được thực hiện thủ công với nhiều sắc độ, tạo độ sâu và bóng bẩy cho cơ bắp, tóc và trang phục, giúp mô hình đạt được mức độ chân thực cao nhất.</li><li><strong>Hình ảnh:</strong> Chụp cực cận một phần nhỏ của mô hình (ví dụ: cánh tay, phần tóc) để thể hiện chất lượng sơn và chi tiết bề mặt.</li></ul><p>&nbsp;</p><h3><strong>Tại sao nên sở hữu mô hình Super Saiyan Blue Goku này?</strong></h3><h4><i>Đây không chỉ là một món đồ sưu tầm, mà còn là một cách để bạn thể hiện niềm đam mê sâu sắc với vũ trụ Dragon Ball Super và tôn vinh nhân vật Son Goku – biểu tượng của sự kiên trì, ý chí vượt qua giới hạn và khát vọng bảo vệ công lý. Mô hình này sẽ là điểm nhấn mạnh mẽ, mang lại vẻ đẹp và sức mạnh thần thánh cho bộ sưu tập của bạn.</i></h4>', 2000000.00, 'images/products/m-hnh-dragonball/m-hnh-dragonball-super-son-goku-super-saiyan-blue-sc-mnh-thn-thnh-kh-cht-v-song/main_1749545939_6847f3d3acaa4.jpg', 16, 1, '2025-06-10 08:58:59', 1500000.00, 19),
 (23, 'Son Goku - Sức Mạnh Cơ Bắp Đỉnh Cao Sau Trận Chiến', '<h2><strong>Hãy mang về không gian của bạn tinh thần chiến đấu bất khuất và sức mạnh thể chất đỉnh cao của Son Goku với mô hình chất lượng cao này – một tác phẩm điêu khắc sống động, tái hiện chân thực anh hùng Saiyan sau những trận chiến ác liệt nhất!</strong></h2><h4>Mô hình Goku \"ở trần\" này được chế tác tỉ mỉ, nắm bắt trọn vẹn vẻ đẹp của sức mạnh thể chất, sự kiên cường và khí chất ngời ngời của Goku khi anh đã dốc hết sức mình. Từ những thớ cơ bắp cuồn cuộn, bộ võ phục tả tơi, đến ánh mắt rực lửa và thần thái sẵn sàng vượt qua mọi giới hạn, mọi chi tiết đều được chăm chút để mang đến một Goku chân thực và đầy uy lực.</h4><p>&nbsp;</p><h3><strong>Đặc điểm nổi bật &amp; Nét đẹp hình ảnh</strong></h3><h4><i>Tái Hiện Hoàn Hảo Sức Mạnh Cơ Bắp</i></h4><ul><li><strong>Đặc tính:</strong> Mô hình khắc họa rõ nét từng nhóm cơ bắp săn chắc trên thân hình Goku, từ cơ ngực, cơ bụng sáu múi đến bắp tay, bắp chân. Các đường nét gân guốc (nếu có) được thể hiện tinh tế, cho thấy sự dẻo dai và mạnh mẽ sau quá trình luyện tập khắc nghiệt.</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh phần thân trên của Goku, làm nổi bật các khối cơ bắp và độ chi tiết của điêu khắc.</li></ul><h4><i>Võ Phục Tả Tơi Sau Trận Chiến</i></h4><ul><li><strong>Đặc tính:</strong> Quần võ phục của Goku được tạo hình với các vết rách, xé nát chân thực, thể hiện sự khốc liệt của những trận đấu. Các chi tiết rách và vải bay phấp phới được điêu khắc động, tăng thêm tính chân thực và kịch tính.</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh phần quần võ phục bị xé rách, làm nổi bật các chi tiết đường rách và độ chân thực của chúng.</li></ul><h4><i>Thần Thái Quyết Chiến &amp; Ánh Mắt Rực Lửa:</i></h4><ul><li><strong>Đặc tính:</strong> Khuôn mặt Goku thường mang biểu cảm căng thẳng, tập trung hoặc phẫn nộ, với ánh mắt sắc bén, rực lửa, thể hiện sự quyết tâm chiến đấu đến cùng. Mái tóc có thể ở trạng thái Super Saiyan (vàng), Super Saiyan 2/3 (nếu có phiên bản đó), hoặc Super Saiyan God/Blue (nếu là trạng thái sau khi hết hiệu ứng võ phục).</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh khuôn mặt và ánh mắt của Goku, làm nổi bật biểu cảm.</li></ul><h4><i>Tư Thế Động Lực, Sẵn Sàng Tung Đòn</i></h4><ul><li><strong>Đặc tính:</strong> Mô hình thường được tạo dáng trong tư thế đầy động lực, như đang dồn Ki, chuẩn bị phóng Kamehameha, hoặc tung ra một đòn đánh mạnh mẽ. Tư thế này toát lên sự mạnh mẽ, tốc độ và khả năng chiến đấu không ngừng nghỉ của Goku.</li><li><strong>Hình ảnh:</strong> Chụp toàn bộ mô hình từ các góc độ động, thể hiện tư thế bùng nổ của Goku. Có thể sử dụng hiệu ứng ánh sáng hoặc nền để tăng kịch tính.</li></ul><h4><i>Chất Liệu PVC/ABS Cao Cấp &amp; Hoàn Thiện Sơn Thủ Công:</i></h4><ul><li><strong>Đặc tính:</strong> Được sản xuất từ nhựa PVC và ABS chất lượng cao, đảm bảo độ bền và giữ màu sắc theo thời gian. Lớp sơn được thực hiện thủ công với nhiều sắc độ, tạo độ sâu và bóng bẩy cho cơ bắp, tông da và các chi tiết trang phục, giúp mô hình đạt được mức độ chân thực cao nhất.</li><li><strong>Hình ảnh:</strong> Chụp cực cận một phần nhỏ của mô hình (ví dụ: bắp tay, phần rách của quần) để thể hiện chất lượng sơn và chi tiết bề mặt.</li></ul><p>&nbsp;</p><h3><strong>Sở hữu mô hình “Son Goku - Sức Mạnh Cơ Bắp Đỉnh Cao Sau Trận Chiến” là sở hữu</strong></h3><h4>Một biểu tượng của sức mạnh vượt trội và ý chí kiên cường.</h4><h4>Một tác phẩm điêu khắc nghệ thuật thể hiện vẻ đẹp của cơ thể chiến binh.</h4><h4>Nguồn cảm hứng cho sự nỗ lực không ngừng nghỉ để đạt được mục tiêu.</h4>', 2000000.00, 'images/products/m-hnh-dragonball/m-hnh-dragonball-zsuper-son-goku-sc-mnh-c-bp-nh-cao-sau-trn-chin/main_1749548358_6847fd461babc.jpg', 16, 1, '2025-06-10 09:39:18', 1850000.00, 19),
 (24, 'Son Gohan - Thiên Tài Tiềm Năng & Người Bảo Vệ Công Lý', '<h2><strong>Hãy mang về không gian của bạn sức mạnh tiềm ẩn, sự tiến hóa phi thường và khí chất anh hùng của Son Gohan với mô hình chất lượng cao này – một tác phẩm điêu khắc sống động, tái hiện chân thực chiến binh Saiyan vĩ đại của Trái Đất!</strong></h2><h4>Mô hình Gohan này được chế tác tỉ mỉ, nắm bắt trọn vẹn sự phát triển từ một cậu bé nhút nhát đến một chiến binh mạnh mẽ có thể vượt qua cả cha mình. Dù ở hình thái Super Saiyan 2 phẫn nộ trong Saga Cell, hay ở trạng thái Mystic/Ultimate điềm tĩnh nhưng uy lực, đến cả hình thái Beast mới nhất, mỗi mô hình Gohan đều là biểu tượng của tiềm năng vô hạn và ý chí bảo vệ những người thân yêu.</h4><p>&nbsp;</p><h3><strong>Đặc điểm nổi bật &amp; Nét đẹp hình ảnh</strong></h3><h4><i>Bộ Trang Phục Biểu Tượng &amp; Chi Tiết Hoàn Hảo:</i></h4><ul><li><strong>Đặc tính:</strong> Trang phục được tái hiện với độ chân thực cao, từ võ phục của cha Goku (bị rách hoặc nguyên vẹn), bộ giáp Saiyaman, hoặc trang phục mới nhất trong Dragon Ball Super: Super Hero. Các nếp gấp vải, đường may, và logo (nếu có) đều được điêu khắc và sơn tỉ mỉ.</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh chi tiết trang phục, làm nổi bật các đường nét và chất liệu.</li></ul><h4><i>Tư Thế Động Lực, Thể Hiện Sức Mạnh Nội Tại:</i></h4><ul><li><strong>Đặc tính:</strong> Mô hình thường được tạo dáng trong tư thế chuẩn bị hoặc đang tung ra đòn tấn công đặc trưng (ví dụ: Kamehameha cha con, Masenko, Special Beam Cannon), hoặc tư thế đứng đầy khí chất, thể hiện sự điềm tĩnh trước bão tố.</li><li><strong>Hình ảnh:</strong> Chụp toàn bộ mô hình từ các góc độ động, thể hiện tư thế bùng nổ hoặc tập trung của Gohan. Nếu có hiệu ứng Kamehameha, hãy làm nổi bật nó.</li></ul><h4><i>Chất Liệu PVC/ABS Cao Cấp &amp; Hoàn Thiện Sơn Thủ Công:</i></h4><ul><li><strong>Đặc tính:</strong> Được sản xuất từ nhựa PVC và ABS chất lượng cao, đảm bảo độ bền và giữ màu sắc theo thời gian. Lớp sơn được thực hiện thủ công với nhiều sắc độ, tạo độ sâu và bóng bẩy cho cơ bắp, tông da và các chi tiết trang phục, giúp mô hình đạt được mức độ chân thực cao nhất.</li><li><strong>Hình ảnh:</strong> Chụp cực cận một phần nhỏ của mô hình (ví dụ: bắp tay, phần tóc) để thể hiện chất lượng sơn và chi tiết bề mặt.</li></ul><p>&nbsp;</p><h3><strong>Sở hữu mô hình Son Gohan là sở hữu</strong></h3><h4>Một biểu tượng của tiềm năng vô hạn và sự tiến hóa không ngừng.</h4><h4>Một tác phẩm điêu khắc nghệ thuật tái hiện các khoảnh khắc đáng nhớ.</h4><h4>Nguồn cảm hứng cho sự phát triển bản thân và lòng dũng cảm bảo vệ những người thân yêu.</h4>', 2000000.00, 'images/products/m-hnh-dragonball/m-hnh-dragon-ball-zsuper-son-gohan-thin-ti-tim-nng-ngi-bo-v-cng-l/main_1749548556_6847fe0c3ac73.jpg', 16, 0, '2025-06-10 09:42:36', NULL, 19),
@@ -231,7 +153,7 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `category
 (34, 'USS Enterprise (CV-6) - \"Grey Ghost\" - Sức Mạnh Bất Diệt Của Hạm Đội', '<h4><strong>Chào đón biểu tượng của sức mạnh và lòng dũng cảm, tàu sân bay huyền thoại USS Enterprise, giờ đây tái hiện dưới hình dạng mô hình chất lượng cao này – một tác phẩm điêu khắc sống động, mang vẻ đẹp oai vệ và khí chất của \"Grey Ghost\" về bộ sưu tập của bạn!</strong></h4><h4>Mô hình Enterprise này được chế tác tỉ mỉ, nắm bắt trọn vẹn vẻ ngoài thanh lịch nhưng đầy quyết đoán, cùng với sức mạnh phi thường của cô ấy trong vai trò tàu sân bay hùng mạnh nhất. Từ mái tóc bạc đặc trưng, trang phục chiến đấu độc đáo, đến cây cung biểu tượng và các chi tiết máy bay đi kèm, mọi chi tiết đều được chăm chút để mang đến một Enterprise chân thực và đầy cuốn hút.</h4><h3><strong>Đặc điểm nổi bật &amp; Nét đẹp hình ảnh</strong></h3><h4><i>Thiết Kế Tái Hiện Chân Thực &amp; Biểu Cảm Mạnh Mẽ:</i></h4><ul><li><strong>Đặc tính:</strong> Mô hình khắc họa Enterprise với độ chính xác cao từ khuôn mặt biểu cảm (thường là nghiêm nghị, tập trung, hoặc đôi khi phảng phất sự mệt mỏi sau chiến trận), mái tóc bạc dài được tạo hình động, và vóc dáng mảnh mai nhưng toát lên sức mạnh.</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh khuôn mặt và mái tóc bạc của Enterprise. Chụp từ nhiều góc độ để làm nổi bật hình dáng tổng thể và thần thái của cô ấy.</li></ul><h4><i>Trang Phục Chiến Đấu Độc Đáo &amp; Chi Tiết Hoàn Hảo:</i></h4><ul><li><strong>Đặc tính:</strong> Trang phục chiến đấu của Enterprise, thường là sự kết hợp giữa áo khoác dài, quần bó sát và các chi tiết giáp, được tái hiện sống động với các nếp gấp vải tự nhiên và độ phồng. Các chi tiết như dây đai, túi, và phù hiệu đều được điêu khắc và sơn tỉ mỉ.</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh chi tiết trang phục, làm nổi bật các đường nét và chất liệu.</li></ul><h4><i>Vũ Khí Biểu Tượng - Cung &amp; Mũi Tên Tỏa Sáng:</i></h4><ul><li><strong>Đặc tính:</strong> Cây cung khổng lồ của Enterprise được tái tạo sắc nét, có thể đi kèm với mũi tên và hiệu ứng năng lượng (màu xanh dương hoặc trắng) biểu thị sự chuẩn bị phóng ra các cuộc tấn công từ máy bay. Các chi tiết này được điêu khắc tinh xảo, thể hiện sức mạnh của cô.</li><li><strong>Hình ảnh:</strong> Chụp cận cảnh cây cung và mũi tên, làm nổi bật hiệu ứng năng lượng nếu có.</li></ul><h4><i>Tư Thế Động Lực &amp; Khí Chất Bất Diệt:</i></h4><ul><li><strong>Đặc tính:</strong> Mô hình thường được tạo dáng trong tư thế đầy động lực, như đang giương cung chuẩn bị bắn, bay lượn trên chiến trường, hoặc đứng hiên ngang đầy tự tin và kiêu hãnh. Mỗi tư thế đều toát lên sự mạnh mẽ, tốc độ và khả năng chiến đấu không ngừng nghỉ của \"Grey Ghost\".</li><li><strong>Hình ảnh:</strong> Chụp toàn bộ mô hình từ các góc độ động, thể hiện tư thế bùng nổ hoặc tập trung của Enterprise.</li></ul><h4><i>Chất Liệu PVC/ABS Cao Cấp &amp; Hoàn Thiện Sơn Tinh Xảo:</i></h4><ul><li><strong>Đặc tính:</strong> Được sản xuất từ nhựa PVC và ABS chất lượng cao, đảm bảo độ bền và giữ màu sắc theo thời gian. Lớp sơn được thực hiện thủ công với nhiều sắc độ, tạo độ sâu và bóng bẩy cho tông da, trang phục và các chi tiết cơ khí, giúp mô hình đạt được mức độ chân thực cao nhất.</li><li><strong>Hình ảnh:</strong> Chụp cực cận một phần nhỏ của mô hình (ví dụ: bàn tay cầm cung, phần giáp) để thể hiện chất lượng sơn và chi tiết bề mặt.</li></ul><h3><strong>Sở hữu mô hình Enterprise là sở hữu</strong></h3><h4>Biểu tượng của sức mạnh hải quân và ý chí bất diệt trong chiến tranh.</h4><h4>Một tác phẩm nghệ thuật điêu khắc tinh xảo, đầy tính động lực.</h4><h4>Nguồn cảm hứng cho sự kiên cường và lòng dũng cảm trong mọi thử thách.</h4>', 4000000.00, 'images/products/m-hnh-azur-lane/m-hnh-azur-lane-uss-enterprise-cv-6-grey-ghost-sc-mnh-bt-dit-ca-hm-i/main_1749581739_68487fab78088.jpg', 21, 1, '2025-06-10 18:55:39', 3100000.00, 19),
 (35, 'Hayakawa Aki - Thợ Săn Quỷ Bí Ẩn Và Quyết Tâm', '<h2><strong>Hãy mang về không gian của bạn sự điềm tĩnh, bí ẩn và khí chất mạnh mẽ của Hayakawa Aki với mô hình chất lượng cao này – một tác phẩm tái hiện hoàn hảo thợ săn quỷ trầm lặng từ Chainsaw Man!</strong></h2><h4>Mô hình Hayakawa Aki này được chế tác tỉ mỉ, nắm bắt trọn vẹn vẻ ngoài lịch lãm nhưng ẩn chứa nhiều nỗi đau và quyết tâm của anh. Từ mái tóc búi cao đặc trưng, bộ vest lịch sự, đến ánh mắt lạnh lùng và những dấu hiệu của hợp đồng với quỷ, mọi chi tiết đều được chăm chút để mang đến một Aki chân thực và sống động nhất. Đây là một bổ sung không thể thiếu cho bất kỳ bộ sưu tập Chainsaw Man nào, thể hiện sự trân trọng đối với một trong những nhân vật phức tạp và đáng nhớ nhất của series.</h4><p>&nbsp;</p><h2>Đặc Điểm Nổi Bật &amp; Nét Đẹp Hình Ảnh</h2><h4><i>1. Thiết Kế Tái Hiện Chân Thực Thần Thái Của Aki</i></h4><p>Mô hình khắc họa Aki với độ chính xác cao từ khuôn mặt biểu cảm, thường là trầm tĩnh, lạnh lùng, hoặc đôi khi phảng phất nỗi buồn. Mái tóc búi cao gọn gàng, đúng như tạo hình trong manga/anime, và vóc dáng thư sinh nhưng đầy ẩn ý sức mạnh đều được thể hiện một cách tinh xảo.</p><h4><i>2. Trang Phục Công Sở Lịch Lãm &amp; Chi Tiết Tinh Xảo</i></h4><p>Bộ vest lịch sự của Aki được tái hiện sống động với các nếp gấp vải tự nhiên, tạo cảm giác như trang phục thật. Áo sơ mi và cà vạt được chăm chút tỉ mỉ, làm nổi bật phong thái chuyên nghiệp và gọn gàng của anh.</p><h4><i>3. Biểu Tượng Của Hợp Đồng Với Quỷ</i></h4><p>Mô hình làm nổi bật các chi tiết liên quan đến hợp đồng của Aki, đặc biệt là bàn tay phải được điêu khắc để thể hiện dấu hiệu của hợp đồng với Quỷ Hồ Ly (nếu có chi tiết đó). Các chi tiết này tăng thêm chiều sâu và sự bi kịch cho nhân vật.</p><h4><i>4. Tư Thế Đầy Khí Chất &amp; Quyết Tâm Chiến Đấu</i></h4><p>Mô hình thường thể hiện Aki trong tư thế điềm tĩnh nhưng luôn sẵn sàng đối mặt với nguy hiểm, hoặc tư thế chiến đấu uyển chuyển (ví dụ: rút kiếm Katana). Tư thế này không chỉ thể hiện sức mạnh mà còn cả sự tập trung và quyết đoán của anh.</p><h4>5. Chất Liệu &amp; Hoàn Thiện Cao Cấp</h4><p>Mô hình được sản xuất từ nhựa PVC và ABS chất lượng cao, đảm bảo độ bền, không dễ vỡ và giữ màu tốt theo thời gian. Quá trình sơn thủ công tỉ mỉ từng chi tiết giúp mô hình có màu sắc sống động, sắc nét và có chiều sâu, từ tông màu da, mái tóc cho đến bóng đổ của trang phục. Mỗi chi tiết nhỏ đều được chăm chút, mang lại cảm giác cao cấp khi chạm vào và trưng bày.</p><p>&nbsp;</p><h2><strong>Tại sao nên sở hữu mô hình Hayakawa Aki này?</strong></h2><h4>Đây không chỉ là một món đồ trưng bày, mà là một cách để bạn thể hiện sự trân trọng đối với một trong những nhân vật phức tạp và đáng nhớ nhất của Chainsaw Man. Mô hình Hayakawa Aki sẽ là điểm nhấn hoàn hảo cho bộ sưu tập anime của bạn, đồng thời nhắc nhở về câu chuyện đầy cảm xúc và những trận chiến không ngừng nghỉ của thợ săn quỷ.</h4>', 3200000.00, 'images/products/m-hnh-chainsaw-man/hayakawa-aki-th-sn-qu-b-n-v-quyt-tm/main_1749582129_684881310bff9.jpg', 22, 1, '2025-06-10 19:02:09', NULL, 19),
 (36, 'Blue-Eyes White Dragon - Biểu Tượng Sức Mạnh Vĩnh Cửu', '<p><i><strong>Được mệnh danh là linh hồn của những lá bài quái vật, Rồng Trắng Mắt Xanh – Blue-Eyes White Dragon – giờ đây kiêu hãnh hiện diện dưới hình thái mô hình cao cấp, một tác phẩm nghệ thuật chế tác tỉ mỉ dành riêng cho những Duelist chân chính và nhà sưu tầm discerning.</strong></i></p><p>Mô hình này không chỉ đơn thuần là vật phẩm trưng bày; <i>nó là sự tái hiện sống động của một huyền thoại</i>, nắm bắt trọn vẹn <i>khí chất uy nghi, vẻ đẹp tuyệt mỹ và sức mạnh hủy diệt</i> đã định hình nên vũ trụ Yu-Gi-Oh! Từ <strong>từng chiếc vảy lấp lánh</strong> đến <strong>đôi mắt xanh biếc đầy quyền năng</strong>, mỗi chi tiết đều được nghiên cứu và điêu khắc với độ chính xác tuyệt đối, mang đến một Blue-Eyes White Dragon <i>chân thực đến kinh ngạc</i>, sẵn sàng giải phóng \"Burst Stream of Destruction\" vào không gian của bạn.</p><h2>Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Thiết Kế Đỉnh Cao &amp; Tái Hiện Trung Thực Nguyên Bản</strong></h3><p>Mô hình Blue-Eyes White Dragon được tạo hình với <strong>độ trung thực đáng kinh ngạc</strong> so với phiên bản anime và artwork huyền thoại. <i>Từng đường nét cơ bắp săn chắc, gân guốc</i> trên cơ thể rồng được điêu khắc tinh xảo, thể hiện rõ ràng sức mạnh tiềm tàng bên trong. Màu trắng ngà đặc trưng được áp dụng một cách <i>tinh tế</i>, tạo nên cảm giác <strong>sang trọng và cổ kính</strong> mà không kém phần uy lực.</p><h3>2. <strong>Đôi Cánh Hoành Tráng &amp; Tư Thế Động Lực Ấn Tượng</strong></h3><p>Điểm nhấn làm nên sự vĩ đại của Rồng Trắng chính là <strong>đôi cánh khổng lồ, sải rộng</strong>. <i>Chất liệu đặc biệt</i> (có thể là PVC dẻo hoặc nhựa trong suốt với hiệu ứng chuyển màu) được sử dụng để tái tạo màng cánh, cho phép <i>ánh sáng xuyên qua một cách tinh tế</i>, tăng thêm vẻ huyền ảo. Mô hình thường được đặt trong một tư thế <i>đầy kịch tính và uy lực</i>, như đang chuẩn bị cất cánh, hạ cánh đầy sức nặng, hoặc dồn năng lượng cho đòn tấn công quyết định.</p><h3>3. <strong>Chi Tiết Tinh Xảo &amp; Hiệu Ứng Biểu Tượng</strong></h3><p><i>Mỗi chiếc móng vuốt sắc nhọn, từng đường vân trên vảy</i>, và các chi tiết nhỏ nhất như sừng, gai đều được <strong>khắc họa một cách tỉ mỉ</strong>, thể hiện sự đầu tư cao độ vào chất lượng điêu khắc. Đối với các phiên bản cao cấp, mô hình có thể tích hợp <strong>hiệu ứng năng lượng bằng vật liệu trong suốt</strong> (ví dụ: tia sáng từ miệng hoặc hào quang quanh thân) để tái hiện <i>kỹ năng \"Burst Stream of Destruction\"</i>, mang đến một trải nghiệm thị giác sống động như thật.</p><h2>Tiêu Chuẩn Chất Lượng Cao Cấp &amp; Hoàn Thiện Nghệ Thuật</h2><h3>1. <strong>Vật Liệu Tuyển Chọn &amp; Độ Bền Vượt Trội</strong></h3><p>Mô hình được chế tác từ <strong>nhựa PVC và ABS cao cấp</strong>, đảm bảo <i>độ bền vượt trội</i>, khả năng chống chịu va đập và giữ form dáng ổn định theo thời gian. Đây là những vật liệu được tin dùng trong ngành sản xuất mô hình cao cấp, mang lại <strong>cảm giác đầm tay và chắc chắn</strong> khi cầm nắm.</p><p><strong>Hình ảnh gợi ý:</strong></p><ul><li><strong>Hình 4.1:</strong> Chụp cận cảnh bề mặt mô hình, làm nổi bật <i>kết cấu vật liệu và độ hoàn thiện</i>.</li></ul><h3>2. <strong>Kỹ Thuật Sơn Tinh Xảo &amp; Đa Tầng</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công cao cấp</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, bóng bẩy và chiều sâu cho từng chi tiết. Từ <i>màu trắng ngà của thân rồng</i>, ánh xanh của mắt, đến <i>ánh kim của móng vuốt</i>, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, khiến mô hình trở thành một tác phẩm điêu khắc đích thực.</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Biểu Tượng Vĩnh Cửu Của Tinh Thần Duelist</strong></h3><p>Sở hữu mô hình Blue-Eyes White Dragon không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một phần lịch sử</strong> và <i>tinh thần bất diệt của Yu-Gi-Oh!</i>. Đây là sự khẳng định cho niềm đam mê của bạn, một <i>biểu tượng của sức mạnh, quyền lực và sự kiêu hãnh</i> đã gắn liền với tuổi thơ và ký ức của hàng triệu người hâm mộ trên khắp thế giới.</p>', 3500000.00, 'images/products/m-hnh-yu-gi-oh/blue-eyes-white-dragon-biu-tng-sc-mnh-vnh-cu/main_1749622659_68491f83a9337.jpg', 23, 0, '2025-06-11 06:17:39', NULL, 19);
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `category_id`, `is_featured`, `created_at`, `discount_price`, `brand_id`) VALUES
+INSERT INTO "products" ("id", "name", "description", "price", "image", "category_id", "is_featured", "created_at", "discount_price", "brand_id") VALUES
 (37, 'Makima - Sức Hút Quyền Năng & Bí Ẩn Tuyệt Đối', '<p><i><strong>Được biết đến như một trong những nhân vật có sức ảnh hưởng và bí ẩn bậc nhất thế giới Chainsaw Man, Makima – Nữ Trưởng Ban Control Devil – giờ đây hiện diện dưới hình thái mô hình cao cấp, một tác phẩm nghệ thuật tinh xảo dành riêng cho những nhà sưu tầm sành điệu và người hâm mộ cuồng nhiệt.</strong></i></p><p>Mô hình này không chỉ là một vật phẩm trưng bày; <i>nó là sự tái hiện sống động của một nhân vật phức tạp</i>, nắm bắt trọn vẹn <i>vẻ đẹp thanh lịch, sự điềm tĩnh chết người và ánh mắt thao túng đầy mê hoặc</i> đã khiến Makima trở thành biểu tượng. Từ <strong>mái tóc tết đuôi sam màu đỏ đặc trưng</strong> đến <strong>bộ vest công sở hoàn hảo</strong>, mỗi chi tiết đều được nghiên cứu và điêu khắc với độ chính xác tuyệt đối, mang đến một Makima <i>chân thực đến kinh ngạc</i>, như thể cô ấy vừa bước ra từ trang truyện hay khung hình anime.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Thiết Kế Tinh Tế &amp; Thần Thái Uy Quyền</strong></h3><p>Mô hình Makima được tạo hình với <strong>độ trung thực đáng kinh ngạc</strong>, thể hiện rõ ràng <i>phong thái thanh lịch nhưng đầy quyền lực</i> của cô. <i>Khuôn mặt được điêu khắc tỉ mỉ</i> với nụ cười mỉm bí ẩn, đôi khi lạnh lùng, cùng với ánh mắt xoáy sâu khó dò – <strong>điểm nhấn biểu tượng nhất</strong> của nhân vật. Mái tóc tết đuôi sam màu đỏ được tạo hình mềm mại, tự nhiên, tạo cảm giác chuyển động.</p><h3>2. <strong>Trang Phục Công Sở &amp; Phong Cách Thanh Lịch</strong></h3><p>Bộ vest đen hoặc xám công sở, áo sơ mi trắng và cà vạt/nơ đen – <i>trang phục biểu tượng</i> của Makima – được tái hiện sống động với <strong>các nếp gấp vải tự nhiên</strong> và <i>đường may tinh tế</i>. Điều này không chỉ thể hiện chất liệu vải mà còn làm nổi bật <strong>phong thái chuyên nghiệp và gọn gàng</strong> của cô, bất chấp quyền năng đáng sợ mà cô nắm giữ.</p><h3>3. <strong>Tư Thế Quyến Rũ &amp; Khí Chất Điều Khiển</strong></h3><p>Mô hình thường được tạo dáng trong một tư thế <i>đầy kiêu hãnh và tự tin</i>, thể hiện <strong>sức mạnh kiểm soát</strong> của Makima. Có thể là tư thế đứng thẳng, một tay đút túi đầy điềm tĩnh, hoặc một tư thế đang thi triển quyền năng điều khiển với các ngón tay tạo hình đặc trưng. Mỗi tư thế đều toát lên <strong>khí chất lạnh lùng và quyền lực tối cao</strong> của cô ấy.</p><p>&nbsp;</p><h2>II. Tiêu Chuẩn Chất Lượng Cao Cấp &amp; Hoàn Thiện Nghệ Thuật</h2><h3>1. <strong>Vật Liệu Tuyển Chọn &amp; Độ Bền Vượt Trội</strong></h3><p>Mô hình được chế tác từ <strong>nhựa PVC và ABS cao cấp</strong>, những vật liệu tiêu chuẩn trong ngành sản xuất figure cao cấp, đảm bảo <i>độ bền vượt trội</i>, khả năng chống chịu va đập và giữ form dáng ổn định theo thời gian. Đây là sự đảm bảo cho một sản phẩm <strong>có giá trị đầu tư và trưng bày lâu dài</strong>.</p><h3>2. <strong>Kỹ Thuật Sơn Tinh Xảo &amp; Đa Tầng</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công chuyên nghiệp</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, độ bóng và chiều sâu cho từng chi tiết. Từ <i>sắc thái da tự nhiên</i>, màu đỏ rực của tóc, đến <i>sự sắc nét của trang phục</i>, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, khiến mô hình trở thành một tác phẩm điêu khắc đích thực.</p><p>&nbsp;</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Biểu Tượng Quyền Năng Của Thế Giới Ngầm</strong></h3><p>Sở hữu mô hình Makima không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một biểu tượng của quyền lực, sự bí ẩn và vẻ đẹp cuốn hút</strong> trong thế giới đen tối của Chainsaw Man. Đây là sự khẳng định cho niềm đam mê của bạn, một <i>sản phẩm độc đáo và đầy hấp dẫn</i> sẽ là tâm điểm của mọi ánh nhìn trong không gian trưng bày.</p>', 2100000.00, 'images/products/m-hnh-chainsaw-man/makima-sc-ht-quyn-nng-b-n-tuyt-i/main_1749622926_6849208eec27b.jpg', 22, 0, '2025-06-11 06:22:06', 2000000.00, 19),
 (38, 'Eren Yeager - Chiến Binh Của Lòng Căm Thù & Tự Do', '<p><i><strong>Được khắc họa trong mọi khoảnh khắc then chốt của hành trình đầy biến động, mô hình Eren Yeager cao cấp này là sự tái hiện hoàn hảo của một nhân vật trung tâm, phức tạp và đầy sức mạnh – biểu tượng của sự phẫn nộ, ý chí bất khuất và khát vọng tự do cháy bỏng của nhân loại.</strong></i></p><p>Mô hình này không chỉ là một vật phẩm trưng bày đơn thuần; <i>nó là một tác phẩm nghệ thuật</i>, nắm bắt trọn vẹn <i>khí chất gai góc, sự trưởng thành qua từng trận chiến và gánh nặng định mệnh</i> mà Eren phải gánh vác. Từ <strong>ánh mắt sắc lạnh</strong> cho đến <strong>từng chi tiết trên trang phục</strong>, mọi đường nét đều được điêu khắc với <i>độ chính xác tuyệt đối</i>, mang đến một Eren Yeager sống động như thể anh vừa bước ra từ thế giới khắc nghiệt của Attack on Titan.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Thiết Kế Tái Hiện Chân Thực &amp; Biểu Cảm Sâu Sắc</strong></h3><p>Mô hình Eren Yeager được tạo hình với <strong>độ trung thực đáng kinh ngạc</strong> so với phiên bản anime và manga. <i>Từng nét biểu cảm trên khuôn mặt</i> – dù là vẻ quyết tâm sắt đá, nỗi giận dữ bùng nổ, hay sự u uẩn trong ánh mắt – đều được khắc họa tinh xảo. Mái tóc đen rối đặc trưng và <i>vóc dáng săn chắc</i> của một chiến binh đã trải qua vô vàn gian nan được thể hiện một cách hoàn hảo.</p><h3>2. <strong>Trang Phục Biểu Tượng &amp; Chi Tiết Thiết Bị Cơ Động 3D</strong></h3><p>Dù là trong bộ quân phục Survey Corps quen thuộc với áo khoác nâu, áo choàng xanh lá và <strong>logo \"Wings of Freedom\" (Đôi cánh Tự do)</strong>, hay trang phục đơn giản hơn ở các arc sau, <i>mọi chi tiết đều được tái tạo tỉ mỉ</i>. Đặc biệt, <strong>hệ thống 3D Maneuver Gear</strong> (thiết bị cơ động 3 chiều) được điêu khắc <i>phức tạp và chân thực</i>, từ các bình khí, dây cáp cho đến lưỡi kiếm thép siêu cứng, thể hiện sự sẵn sàng chiến đấu.</p><h3>3. <strong>Tư Thế Động Lực &amp; Khí Chất Chiến Binh Bất Khuất</strong></h3><p>Mô hình thường được đặt trong một tư thế <i>đầy kịch tính và mạnh mẽ</i>, như đang chuẩn bị vung kiếm tấn công Titan, lao mình vào trận chiến với <strong>thiết bị 3D Maneuver Gear</strong>, hoặc đứng hiên ngang đầy quyết tâm trước mọi thử thách. <i>Mỗi tư thế đều toát lên sức mạnh, sự nhanh nhẹn và ý chí không lùi bước</i> của Eren.</p><p>&nbsp;</p><h2>II. Tiêu Chuẩn Chất Lượng Cao Cấp &amp; Hoàn Thiện Nghệ Thuật</h2><h3>1. <strong>Vật Liệu Tuyển Chọn &amp; Độ Bền Vượt Trội</strong></h3><p>Mô hình được chế tác từ <strong>nhựa PVC và ABS cao cấp</strong>, những vật liệu tiêu chuẩn trong ngành sản xuất figure collectible, đảm bảo <i>độ bền vượt trội</i>, khả năng chống chịu va đập và duy trì form dáng ổn định theo thời gian. Điều này mang lại <strong>cảm giác đầm tay và chắc chắn</strong>, xứng đáng với một sản phẩm sưu tầm cao cấp.</p><h3>2. <strong>Kỹ Thuật Sơn Chuyên Nghiệp &amp; Đa Tầng</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công tinh xảo</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, bóng bẩy và chiều sâu cho từng chi tiết. Từ <i>màu da, sắc thái của mái tóc</i>, đến <i>ánh kim của thiết bị và các vết hao mòn</i> (nếu có) trên trang phục, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, khiến mô hình trở thành một tác phẩm điêu khắc đích thực.</p><p>&nbsp;</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Biểu Tượng Của Khát Vọng Tự Do &amp; Sự Thật Phũ Phàng</strong></h3><p>Sở hữu mô hình Eren Yeager không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một phần cốt truyện đầy ám ảnh</strong> và <i>tinh thần không ngừng đấu tranh vì tự do</i> của nhân vật. Đây là sự khẳng định cho niềm đam mê của bạn, một <i>biểu tượng của sức mạnh nội tâm, lòng dũng cảm và câu chuyện vĩ đại</i> đã làm lay động hàng triệu trái tim người hâm mộ trên khắp thế giới.</p>', 3500000.00, 'images/products/m-hnh-attack-on-titan/eren-yeager-chin-binh-ca-lng-cm-th-t-do/main_1749623139_68492163177f0.jpg', 24, 0, '2025-06-11 06:25:39', NULL, 19),
 (39, 'Levi Ackerman - Người Lính Mạnh Nhất & Biểu Tượng Của Nhân Loại', '<p><i><strong>Được mệnh danh là \"Người lính mạnh nhất của nhân loại\", Đội trưởng Levi Ackerman không chỉ là một chiến binh huyền thoại mà còn là biểu tượng của ý chí kiên cường và lòng dũng cảm. Giờ đây, anh ấy hiện diện dưới hình thái mô hình cao cấp, một tác phẩm nghệ thuật chế tác tỉ mỉ dành riêng cho những người hâm mộ Attack on Titan và nhà sưu tầm discerning.</strong></i></p><p>Mô hình này không chỉ đơn thuần là vật phẩm trưng bày; <i>nó là sự tái hiện sống động của tinh thần bất khuất</i>, nắm bắt trọn vẹn <i>khí chất lạnh lùng, tốc độ chớp nhoáng và sức mạnh phi thường</i> đã giúp Levi tồn tại trong thế giới tàn khốc của Titan. Từ <strong>ánh mắt sắc lạnh</strong> đến <strong>bộ 3D Maneuver Gear phức tạp</strong>, mỗi chi tiết đều được nghiên cứu và điêu khắc với độ chính xác tuyệt đối, mang đến một Levi Ackerman <i>chân thực đến kinh ngạc</i>, sẵn sàng đối mặt với bất kỳ mối đe dọa nào.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Thiết Kế Đỉnh Cao &amp; Tái Hiện Thần Thái Biểu Tượng</strong></h3><p>Mô hình khắc họa Levi với <strong>độ trung thực đáng kinh ngạc</strong> so với phiên bản anime và manga. <i>Khuôn mặt biểu cảm nghiêm nghị</i>, mái tóc cắt ngắn đặc trưng và vóc dáng nhỏ bé nhưng <strong>săn chắc đầy sức mạnh</strong> đều được thể hiện một cách hoàn hảo. Ánh mắt anh toát lên sự <i>tập trung cao độ và quyết đoán</i>, đúng với tính cách lạnh lùng nhưng đầy nhiệt huyết của đội trưởng.</p><h3>2. <strong>Trang Phục Survey Corps &amp; 3D Maneuver Gear Chi Tiết</strong></h3><p>Bộ quân phục Survey Corps huyền thoại với <strong>áo choàng xanh lá bay phấp phới</strong> và biểu tượng \"Wings of Freedom\" được tái hiện <i>chân thực đến từng nếp gấp vải</i>. Đặc biệt, <strong>hệ thống 3D Maneuver Gear</strong> được điêu khắc vô cùng <i>phức tạp và chính xác</i>, từ các bình khí, dây cáp, đến lưỡi kiếm thép siêu cứng. Mọi chi tiết đều được chăm chút, tạo cảm giác như một <i>thiết bị hoạt động thực sự</i>.</p><h3>3. <strong>Tư Thế Động Lực &amp; Biểu Cảm Chiến Đấu Dữ Dội</strong></h3><p>Mô hình thường được tạo dáng trong một tư thế <i>đầy kịch tính và tốc độ</i>, như đang bay lượn giữa không trung, chuẩn bị thực hiện một cú chém chí mạng vào gáy Titan, hoặc hạ cánh mạnh mẽ sau một đòn tấn công. <i>Sự năng động và khí chất chiến đấu</i> được thể hiện rõ ràng qua từng đường nét của cơ thể và trang phục, làm nổi bật <strong>kỹ năng bậc thầy của Levi</strong>.</p><p>&nbsp;</p><h2>II. Tiêu Chuẩn Chất Lượng Cao Cấp &amp; Hoàn Thiện Nghệ Thuật</h2><h3>1. <strong>Vật Liệu Tuyển Chọn &amp; Độ Bền Vượt Trội</strong></h3><p>Mô hình được chế tác từ <strong>nhựa PVC và ABS cao cấp</strong>, đảm bảo <i>độ bền vượt trội</i>, khả năng chống chịu va đập và giữ form dáng ổn định theo thời gian. Đây là những vật liệu được tin dùng trong ngành sản xuất figure cao cấp, mang lại <strong>cảm giác đầm tay và chắc chắn</strong> khi cầm nắm.</p><h3>2. <strong>Kỹ Thuật Sơn Tinh Xảo &amp; Đa Tầng</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công cao cấp</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, bóng bẩy và chiều sâu cho từng chi tiết. Từ <i>màu da chân thực</i>, sắc đen của tóc đến <i>màu xanh của áo choàng và ánh kim của thiết bị</i>, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, khiến mô hình trở thành một tác phẩm điêu khắc đích thực.</p><p>&nbsp;</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Biểu Tượng Của Lòng Dũng Cảm &amp; Sự Kiên Cường</strong></h3><p>Sở hữu mô hình Levi Ackerman không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một phần của huyền thoại</strong> và <i>tinh thần bất khuất của Attack on Titan</i>. Đây là sự khẳng định cho niềm đam mê của bạn, một <i>biểu tượng của sức mạnh, kỷ luật và lòng dũng cảm</i> đã truyền cảm hứng cho hàng triệu người hâm mộ trên khắp thế giới.</p>', 2570000.00, 'images/products/m-hnh-attack-on-titan/levi-ackerman-ngi-lnh-mnh-nht-biu-tng-ca-nhn-loi/main_1749623271_684921e733f37.jpg', 24, 1, '2025-06-11 06:27:51', 2490000.00, 19),
@@ -243,7 +165,7 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `category
 (45, 'Portgas D. Ace - Hỏa Quyền Bất Diệt', '<p><i><strong>Được biết đến là \"Hỏa Quyền Ace\", biểu tượng của ý chí tự do và ngọn lửa bất diệt, Portgas D. Ace giờ đây kiêu hãnh hiện diện dưới hình thái mô hình cao cấp, một tác phẩm nghệ thuật chế tác tỉ mỉ dành riêng cho những fan One Piece chân chính và nhà sưu tầm discerning.</strong></i></p><p>Mô hình này không chỉ đơn thuần là vật phẩm trưng bày; <i>nó là sự tái hiện sống động của một huyền thoại</i>, nắm bắt trọn vẹn <i>khí chất ngạo nghễ, vẻ đẹp nam tính và sức mạnh rực cháy của ngọn lửa Mera Mera no Mi</i> đã định hình nên Ace. Từ <strong>hình xăm \"ASCE\"</strong> biểu tượng đến <strong>ngọn lửa bùng cháy xung quanh</strong>, mỗi chi tiết đều được nghiên cứu và điêu khắc với độ chính xác tuyệt đối, mang đến một Ace <i>chân thực đến kinh ngạc</i>, sẵn sàng giải phóng \"Hiken\" vào không gian của bạn.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Thiết Kế Đỉnh Cao &amp; Tái Hiện Trung Thực Nguyên Bản</strong></h3><p>Mô hình Portgas D. Ace được tạo hình với <strong>độ trung thực đáng kinh ngạc</strong> so với phiên bản anime và manga huyền thoại. <i>Từng đường nét cơ bắp săn chắc, biểu cảm khuôn mặt tự tin nhưng đôi khi mang chút buồn bã</i>, đều được điêu khắc tinh xảo. Từ mái tóc đen rối đến những vết sẹo nhỏ (nếu có), mọi chi tiết đều góp phần tạo nên một Ace sống động như thật.</p><h3>2. <strong>Trang Phục Biểu Tượng &amp; Phụ Kiện Đặc Trưng</strong></h3><p>Ace thường được khắc họa trong bộ trang phục <i>điển hình của mình</i>: quần short tối màu, đai thắt lưng cam, đôi ủng cao và chiếc mũ cao bồi có gắn hai mặt cười và mặt buồn. <i>Chuỗi hạt và vòng cổ</i> biểu tượng cũng được tái hiện tỉ mỉ. <strong>Mỗi chi tiết nhỏ</strong> như khóa thắt lưng, găng tay đều được chú trọng, thể hiện sự đầu tư cao độ vào tính chân thực của mô hình.</p><h3>3. <strong>Hiệu Ứng Lửa Mera Mera no Mi &amp; Tư Thế Động Lực Ấn Tượng</strong></h3><p>Điểm nhấn làm nên sự vĩ đại của Ace chính là <strong>khả năng điều khiển lửa</strong>. Mô hình thường được thiết kế với <i>các hiệu ứng lửa rực cháy</i> được tạo hình bằng vật liệu trong suốt hoặc chuyển màu, bao quanh cơ thể hoặc từ nắm đấm của anh. Ace thường được đặt trong một tư thế <i>đầy kịch tính và uy lực</i>, như đang tung \"Hỏa Quyền\" hoặc chuẩn bị giải phóng năng lượng.</p><p>&nbsp;</p><h2>II. Tiêu Chuẩn Chất Lượng Cao Cấp &amp; Hoàn Thiện Nghệ Thuật</h2><h3>1. <strong>Vật Liệu Tuyển Chọn &amp; Độ Bền Vượt Trội</strong></h3><p>Mô hình được chế tác từ <strong>nhựa PVC và ABS cao cấp</strong>, đảm bảo <i>độ bền vượt trội</i>, khả năng chống chịu va đập và giữ form dáng ổn định theo thời gian. Đây là những vật liệu được tin dùng trong ngành sản xuất mô hình cao cấp, mang lại <strong>cảm giác đầm tay và chắc chắn</strong> khi cầm nắm, đảm bảo tuổi thọ lâu dài cho sản phẩm.</p><h3>2. <strong>Kỹ Thuật Sơn Tinh Xảo &amp; Đa Tầng</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công cao cấp</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, bóng bẩy và chiều sâu cho từng chi tiết. Từ <i>màu da rám nắng của Ace</i>, màu lửa rực cháy, đến <i>màu sắc chân thực của trang phục</i>, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, khiến mô hình trở thành một tác phẩm điêu khắc đích thực.</p><p>&nbsp;</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Biểu Tượng Bất Diệt Của Tinh Thần Hải Tặc</strong></h3><p>Sở hữu mô hình Portgas D. Ace không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một phần lịch sử</strong> và <i>tinh thần bất diệt của One Piece</i>. Đây là sự khẳng định cho niềm đam mê của bạn, một <i>biểu tượng của tự do, tình anh em và ý chí không bao giờ khuất phục</i>, đã gắn liền với ký ức và cảm xúc của hàng triệu người hâm mộ trên khắp thế giới.</p>', 17900000.00, 'images/products/m-hnh-one-piece/portgas-d-ace-ha-quyn-bt-dit/main_1749625942_68492c5625aba.jpg', 27, 1, '2025-06-11 07:12:22', 15700000.00, 19),
 (46, 'Sir Crocodile - Bá Vương Sa Mạc Vô Tận', '<p><i><strong>Chào mừng sự trở lại của một trong những nhân vật phản diện mang tính biểu tượng nhất của One Piece – Sir Crocodile, giờ đây được tái hiện đầy uy lực trong tác phẩm nghệ thuật statue cao cấp từ Jimei Palace. Đây không chỉ là một mô hình, mà là một kiệt tác điêu khắc, thể hiện hoàn hảo khí chất thống trị và sức mạnh của Bá Vương Sa Mạc.</strong></i></p><p>Mô hình này là sự kết hợp hoàn hảo giữa <i>nghệ thuật thủ công bậc thầy</i> và <i>công nghệ điêu khắc tiên tiến</i>, nắm bắt trọn vẹn vẻ ngoài lạnh lùng, tàn nhẫn và quyền năng của Crocodile. Từ chiếc móc vàng lấp lánh, làn khói thuốc lá bay lượn, đến những hiệu ứng cát đầy mê hoặc, <strong>mỗi chi tiết đều được chế tác với sự tỉ mỉ tuyệt đối</strong>, biến bộ sưu tập của bạn thành một phần của đại dương cát vô tận Alabasta. Đây là sản phẩm không thể thiếu cho những nhà sưu tầm <strong>đam mê sự độc đáo và chất lượng đỉnh cao</strong>.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Thiết Kế Đỉnh Cao &amp; Tái Hiện Biểu Cảm Chân Thực</strong></h3><p>Mô hình Crocodile được tạo hình với <strong>độ chân thực đáng kinh ngạc</strong>, tái hiện khuôn mặt lạnh lùng, khắc nghiệt và nụ cười khẩy đặc trưng của cựu Shichibukai. <i>Từng đường nét sắc sảo trên khuôn mặt, những vết sẹo</i>, và biểu cảm ánh mắt kiêu ngạo đều được khắc họa chi tiết, toát lên <strong>khí chất của một kẻ thống trị</strong>. Trang phục vest sang trọng, áo khoác lông cùng chiếc khăn rằn bí ẩn được điêu khắc <i>mượt mà và có chiều sâu</i>, tạo cảm giác về chất liệu thực tế.</p><h3>2. <strong>Hiệu Ứng Sức Mạnh Trái Ác Quỷ \"Suna Suna no Mi\" Đầy Mê Hoặc</strong></h3><p>Điểm nhấn làm nên sự vĩ đại của mô hình này chính là <strong>hiệu ứng cát (Sand-Sand Fruit) được tái hiện một cách ngoạn mục</strong>. <i>Những luồng cát cuộn xoáy, nhọn hoắt</i> được chế tác bằng nhựa trong suốt cao cấp, tạo cảm giác như Crocodile đang biến đổi thành cát hoặc tạo ra những lưỡi kiếm cát chết người. Các hiệu ứng này không chỉ làm tăng tính động cho mô hình mà còn phản ánh <strong>sức mạnh khủng khiếp</strong> của anh ta.</p><h3>3. <strong>Chiếc Móc Vàng Biểu Tượng &amp; Khói Thuốc Lá</strong></h3><p>Chiếc móc vàng đặc trưng của Crocodile được điêu khắc với <strong>độ tinh xảo tuyệt đối</strong>, từ <i>ánh kim loại bóng bẩy</i> đến các chi tiết gờ và chốt nhỏ. Đặc biệt, Jimei Palace còn thể hiện chi tiết <strong>làn khói thuốc lá mờ ảo</strong> bay lượn từ điếu xì gà của anh, tạo nên một <i>bầu không khí bí ẩn và phong trần</i>, hoàn chỉnh bức tranh về một tay phản diện đầy cuốn hút.</p><p>&nbsp;</p><h2>II. Chất Lượng Chế Tác &amp; Hoàn Thiện Nghệ Thuật Cao Cấp</h2><h3>1. <strong>Vật Liệu Cao Cấp &amp; Độ Bền Vượt Trội</strong></h3><p>Được chế tác từ <strong>Resin Polyurethane chất lượng cao</strong> (hoặc vật liệu tương đương), mô hình này đảm bảo <i>độ bền vượt trội</i>, khả năng chống chịu va đập và giữ chi tiết hoàn hảo theo thời gian. Đây là vật liệu được tin dùng cho các <i>statue sưu tầm cao cấp</i>, mang lại <strong>cảm giác nặng tay và chắc chắn</strong>, xứng tầm với một tác phẩm nghệ thuật.</p><h3>2. <strong>Kỹ Thuật Sơn Nâng Cao &amp; Đa Tầng Sắc Độ</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công bậc thầy</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, bóng bẩy và chiều sâu chân thực cho từng chi tiết. Từ <i>màu da lạnh lùng</i>, sắc thái trang phục, đến <i>ánh kim của chiếc móc</i>, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, khiến mô hình trở thành một điểm nhấn độc đáo trong bất kỳ bộ sưu tập nào.</p><p>&nbsp;</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Kiệt Tác Tuyệt Vời Dành Cho Người Hâm Mộ One Piece</strong></h3><p>Sở hữu mô hình Crocodile từ Jimei Palace không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một phần lịch sử</strong> và <i>sức ảnh hưởng vĩnh cửu của One Piece</i>. Đây là sự khẳng định cho niềm đam mê của bạn, một <strong>biểu tượng của sự độc lập, quyền lực</strong> và những âm mưu phức tạp trong thế giới hải tặc, mang lại một trải nghiệm trưng bày <i>đẳng cấp và đầy cảm xúc</i>.</p>', 26500000.00, 'images/products/m-hnh-one-piece/sir-crocodile-b-vng-sa-mc-v-tn/main_1749626207_68492d5fee52d.jpg', 27, 0, '2025-06-11 07:16:47', NULL, 19),
 (47, 'Râu Đen (Blackbeard) - Sự Kết Hợp Đột Phá Giữa Sức Mạnh Hải Tặc và Tốc Độ Siêu Xe', '<p><i><strong>Được ra đời từ sự hợp tác táo bạo và đầy sáng tạo của Ferrari Studio, mô hình Râu Đen (Marshall D. Teach) này không chỉ là một vật phẩm sưu tầm mà còn là một tuyên ngôn nghệ thuật độc đáo, pha trộn giữa sự hung tợn của Yonko Râu Đen với vẻ đẹp tinh xảo, tốc độ và đẳng cấp của một siêu xe Ferrari.</strong></i></p><p>Đây là một <i>kiệt tác hiếm có</i>, nơi sức mạnh tăm tối của \"Kẻ Lãnh Đạo Bóng Đêm\" được tái hiện qua ngôn ngữ thiết kế của một thương hiệu xe hơi huyền thoại. Mô hình này không chỉ làm nổi bật <strong>những đặc điểm biểu tượng của Râu Đen</strong> mà còn thổi vào đó <i>linh hồn tốc độ và sự sang trọng</i>, tạo nên một sản phẩm <strong>đột phá và không thể bỏ qua</strong> trong bộ sưu tập của bất kỳ người hâm mộ One Piece hay tín đồ siêu xe nào.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Nghệ Thuật Độc Đáo</h2><h3>1. <strong>Thiết Kế Đột Phá &amp; Hài Hòa Hai Phong Cách</strong></h3><p>Mô hình Râu Đen phiên bản Ferrari Studio nổi bật với sự <strong>tích hợp khéo léo</strong> giữa các yếu tố đặc trưng của Marshall D. Teach và <i>cảm hứng từ thiết kế xe Ferrari</i>. Từ vóc dáng đồ sộ, cơ bắp cuồn cuộn của Râu Đen đến các chi tiết được cách điệu theo phong cách siêu xe (như <strong>đường nét khí động học</strong>, <i>phần giáp mô phỏng carbon fiber</i>, hoặc <strong>logo Ferrari</strong> được lồng ghép tinh tế), tất cả tạo nên một tổng thể <i>ấn tượng và chưa từng có</i>. Tông màu chủ đạo thường là đen, đỏ và vàng, thể hiện sự mạnh mẽ và quyền lực.</p><h3>2. <strong>Tái Hiện Chân Dung &amp; Thần Thái Uy Hiếp Của Yonko</strong></h3><p><i>Khuôn mặt Râu Đen được điêu khắc với độ chính xác cao</i>, tái hiện biểu cảm gian xảo, ánh mắt hiểm ác và nụ cười ranh mãnh đặc trưng. Bộ râu đen dài, chiếc mũ hải tặc và các món trang sức (nhẫn, dây chuyền) đều được làm tỉ mỉ, nhấn mạnh <strong>thần thái của một Tứ Hoàng tàn bạo và mưu mô</strong>.</p><h3>3. <strong>Phụ Kiện Biểu Tượng &amp; Hiệu Ứng Sức Mạnh Bóng Tối</strong></h3><p>Mô hình đi kèm với các phụ kiện biểu tượng của Râu Đen như <strong>súng lục đa nòng</strong>, <i>kiếm</i>, hoặc <strong>hiệu ứng quyền năng của trái Yami Yami no Mi</strong> (trái ác quỷ Bóng Tối) và <strong>Gura Gura no Mi</strong> (trái ác quỷ Chấn Động). Các hiệu ứng này thường được làm bằng <i>nhựa trong suốt với màu sắc đặc trưng</i> (đen, tím, vàng), tạo cảm giác <strong>động và mạnh mẽ</strong>, như thể Râu Đen đang thi triển sức mạnh hủy diệt của mình.</p><p>&nbsp;</p><h2>II. Tiêu Chuẩn Sản Xuất &amp; Hoàn Thiện Cao Cấp</h2><h3>1. <strong>Chất Liệu Tuyển Chọn &amp; Độ Bền Vượt Trội</strong></h3><p>Được chế tác từ <strong>vật liệu cao cấp như PVC, ABS và có thể có resin</strong> (đối với các chi tiết phức tạp), mô hình đảm bảo <i>độ bền vượt trội</i>, khả năng chống phai màu và giữ form dáng ổn định theo thời gian. Các chi tiết cứng cáp kết hợp với <i>độ linh hoạt cần thiết</i> cho phép mô hình được trưng bày một cách <strong>an toàn và lâu dài</strong>.</p><h3>2. <strong>Kỹ Thuật Sơn Tinh Xảo &amp; Chi Tiết Hoàn Hảo</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công chuyên nghiệp</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, bóng bẩy và chiều sâu. Từ <i>màu đen bóng của áo khoác</i>, ánh kim loại trên phụ kiện, đến <i>hiệu ứng da rám nắng</i> của Râu Đen, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, phản ánh sự đầu tư của Ferrari Studio vào sản phẩm.</p><p>&nbsp;</p><h2>III. Giá Trị Độc Quyền &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Phiên Bản Giới Hạn &amp; Giá Trị Sưu Tầm Cao</strong></h3><p>Đây là một sản phẩm <strong>độc đáo và có khả năng là phiên bản giới hạn</strong>, mang lại <i>giá trị sưu tầm vượt trội</i>. Sở hữu mô hình Râu Đen phiên bản Ferrari Studio không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một tuyên ngôn nghệ thuật</strong>, một <i>sự kết hợp hiếm thấy</i> giữa hai thế giới tưởng chừng như đối lập, thể hiện <strong>gu thẩm mỹ và cá tính độc đáo</strong> của chủ nhân.</p>', 9800000.00, 'images/products/m-hnh-one-piece/ru-en-blackbeard-s-kt-hp-t-ph-gia-sc-mnh-hi-tc-v-tc-siu-xe/main_1749626434_68492e4260730.jpg', 27, 0, '2025-06-11 07:20:34', 7500000.00, 19);
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `category_id`, `is_featured`, `created_at`, `discount_price`, `brand_id`) VALUES
+INSERT INTO "products" ("id", "name", "description", "price", "image", "category_id", "is_featured", "created_at", "discount_price", "brand_id") VALUES
 (48, 'Boa Hancock - Nữ Hoàng Hải Tặc & Vẻ Đẹp Chết Người', '<p><i><strong>Chinh phục mọi ánh nhìn với sự xuất hiện của Nữ Hoàng Hải Tặc – Boa Hancock, giờ đây kiêu sa trong hình thái mô hình cao cấp, một tác phẩm nghệ thuật điêu khắc đỉnh cao dành riêng cho những nhà sưu tầm và người hâm mộ cuồng nhiệt của One Piece.</strong></i></p><p>Mô hình này không chỉ đơn thuần là vật phẩm trưng bày; <i>nó là sự tái hiện hoàn hảo của vẻ đẹp độc nhất vô nhị</i>, nắm bắt trọn vẹn <i>khí chất quyền lực, sự quyến rũ mê hoặc và thần thái kiêu sa</i> đã biến cô thành một trong những nhân vật nữ được ngưỡng mộ nhất. Từ <strong>mái tóc đen dài óng ả</strong> đến <strong>đôi mắt xanh lục hút hồn</strong> và <strong>nụ cười đầy tự tin</strong>, mỗi chi tiết đều được nghiên cứu và điêu khắc với độ chính xác tuyệt đối, mang đến một Boa Hancock <i>chân thực đến mê hồn</i>, sẵn sàng \"hóa đá\" bất kỳ ai dám đối diện.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Thiết Kế Đỉnh Cao &amp; Vẻ Đẹp Quyến Rũ Tuyệt Đối</strong></h3><p>Mô hình Boa Hancock được tạo hình với <strong>độ trung thực đáng kinh ngạc</strong>, thể hiện rõ <i>từng đường nét duyên dáng, tỉ lệ cơ thể hoàn hảo</i> và vẻ đẹp kiêu sa của Nữ Hoàng. <i>Khuôn mặt được điêu khắc tinh xảo</i>, nắm bắt được biểu cảm đặc trưng của cô: nụ cười tự tin, ánh mắt hút hồn, hoặc vẻ mặt hờn dỗi đáng yêu khi bị Luffy phớt lờ.</p><h3>2. <strong>Trang Phục Biểu Tượng &amp; Phụ Kiện Hoàng Gia Tinh Xảo</strong></h3><p>Trang phục của Hancock, thường là <strong>áo khoác lông vũ dài</strong> và <strong>váy xẻ tà quyến rũ</strong> với họa tiết hoa văn phức tạp, được tái hiện <i>sống động với các nếp gấp vải tự nhiên</i> và độ bay bổng. Các phụ kiện như <strong>hoa tai rắn vàng</strong>, đôi giày cao gót đặc trưng, và <strong>những con rắn sẳn sàng uốn lượn</strong> quanh cô đều được chế tác <strong>tỉ mỉ</strong>, góp phần tạo nên vẻ ngoài <i>sang trọng và quyền quý</i>.</p><h3>3. <strong>Tư Thế Động Lực &amp; Khí Chất Nữ Hoàng Uy Quyền</strong></h3><p>Mô hình thường được đặt trong một tư thế <i>đầy tính biểu tượng và quyền lực</i>, như đang <i>thực hiện chiêu thức \"Mero Mero Mellow\"</i>, đứng kiêu sa với tay chống hông, hoặc trong một động tác đầy uyển chuyển thể hiện sự linh hoạt của cô. Mỗi tư thế đều toát lên <strong>sức mạnh ẩn giấu</strong> và <i>vẻ tự tin ngút trời</i> của một Shichibukai.</p><p>&nbsp;</p><h2>II. Tiêu Chuẩn Chất Lượng Cao Cấp &amp; Hoàn Thiện Nghệ Thuật</h2><h3>1. <strong>Vật Liệu Tuyển Chọn &amp; Độ Bền Vượt Trội</strong></h3><p>Mô hình được chế tác từ <strong>nhựa PVC và ABS cao cấp</strong>, đảm bảo <i>độ bền vượt trội</i>, khả năng chống chịu va đập và giữ màu sắc ổn định theo thời gian. Đây là những vật liệu được tin dùng trong ngành sản xuất mô hình cao cấp, mang lại <strong>cảm giác chân thực và chắc chắn</strong> khi cầm nắm.</p><h3>2. <strong>Kỹ Thuật Sơn Tinh Xảo &amp; Đa Tầng</strong></h3><p>Quy trình sơn được thực hiện bằng <strong>kỹ thuật thủ công cao cấp</strong>, áp dụng nhiều lớp màu và sắc độ để tạo ra <i>hiệu ứng chuyển sắc tinh tế</i>, bóng bẩy và chiều sâu cho từng chi tiết. Từ <i>mái tóc đen huyền bí</i>, làn da mịn màng đến <i>màu sắc rực rỡ của trang phục và phụ kiện</i>, tất cả đều được xử lý để đạt được <strong>mức độ chân thực và nghệ thuật cao nhất</strong>, khiến mô hình trở thành một tác phẩm điêu khắc đích thực.</p><p>&nbsp;</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Biểu Tượng Của Vẻ Đẹp &amp; Quyền Lực</strong></h3><p>Sở hữu mô hình Boa Hancock không chỉ là việc thêm một vật phẩm vào bộ sưu tập; đó là <strong>sở hữu một biểu tượng của vẻ đẹp vượt thời gian</strong>, <i>sức mạnh phi thường và cá tính không thể nhầm lẫn</i> trong vũ trụ One Piece. Đây là sự khẳng định cho niềm đam mê của bạn, một <i>minh chứng cho sự quyến rũ và quyền lực</i> của Nữ Hoàng Hải Tặc.</p>', 2550000.00, 'images/products/m-hnh-one-piece/boa-hancock-n-hong-hi-tc-v-p-cht-ngi/main_1749626785_68492fa13521c.jpg', 27, 1, '2025-06-11 07:25:37', 2120000.00, 19),
 (49, 'Threezero DLX Optimus Prime - Biểu Tượng Của Công Lý & Quyền Lực', '<p><i><strong>Đắm mình vào vũ trụ Transformers với mô hình Threezero DLX Optimus Prime – một tác phẩm kỹ thuật và nghệ thuật đỉnh cao, tái hiện chân thực thủ lĩnh vĩ đại của Autobots với độ chính xác và chi tiết chưa từng có.</strong></i></p><p>Mô hình này không chỉ là một vật phẩm trưng bày; <i>nó là hiện thân của công lý và lòng dũng cảm</i>, được chế tác để mang đến trải nghiệm <strong>chân thực nhất</strong> về Optimus Prime từ màn ảnh rộng. Với <strong>khung xương die-cast chắc chắn</strong>, khớp nối linh hoạt, và các chi tiết sơn mài tinh xảo, mỗi góc cạnh của mô hình đều toát lên <i>khí chất uy nghi</i> của vị thủ lĩnh, sẵn sàng dẫn dắt Autobots bảo vệ tự do và hòa bình. Đây là một món đồ sưu tầm <strong>không thể thiếu</strong> cho mọi người hâm mộ Transformers, từ lâu đã tìm kiếm một phiên bản Optimus Prime hoàn hảo.</p><p>&nbsp;</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Đỉnh Cao</h2><h3>1. <strong>Thiết Kế Tái Hiện Chính Xác Từ Phim Ảnh</strong></h3><p>Mô hình Optimus Prime được Threezero thiết kế dựa trên <i>phiên bản điện ảnh đầy uy lực</i>, thường là từ các phim như Transformers: Bumblebee hoặc Transformers: Rise of the Beasts. Từng đường nét, tỷ lệ cơ thể, và các chi tiết giáp đều được <strong>tái tạo một cách tỉ mỉ</strong>, đảm bảo <i>tính trung thực tuyệt đối</i> so với hình ảnh trên màn ảnh. Màu sơn xanh dương và đỏ đặc trưng được áp dụng với độ chính xác cao, cùng với các chi tiết kim loại và hao mòn tinh tế.</p><h3>2. <strong>Khung Xương Die-cast &amp; Độ Bền Vượt Trội</strong></h3><p>Là một phần của dòng DLX trứ danh, mô hình Optimus Prime tự hào sở hữu <strong>khung xương nội bằng die-cast (kim loại đúc)</strong>. Vật liệu này không chỉ mang lại <i>trọng lượng đáng kể và cảm giác cầm chắc tay</i> mà còn tăng cường <i>độ bền và sự ổn định</i> cho các khớp nối. Điều này cho phép mô hình giữ được các tư thế pose dáng phức tạp một cách vững chắc và bền bỉ theo thời gian, <strong>giảm thiểu hiện tượng lỏng khớp</strong>.</p><h3>3. <strong>Hệ Thống Khớp Nối Linh Hoạt &amp; Khả Năng Pose Đa Dạng</strong></h3><p>Với <strong>hơn 50 điểm khớp nối</strong> được thiết kế thông minh, mô hình Optimus Prime mang đến <i>khả năng pose dáng vượt trội</i>. Bạn có thể tái tạo mọi tư thế chiến đấu, hành động uy lực hoặc biểu cảm đặc trưng của Optimus Prime từ phim. <i>Mỗi khớp đều được tối ưu hóa</i> để đạt được dải chuyển động rộng nhất mà vẫn duy trì sự ổn định.</p><p>&nbsp;</p><h2>II. Chi Tiết Hoàn Hảo &amp; Tính Năng Nâng Cao</h2><h3>1. <strong>Chi Tiết Sơn Mài Cao Cấp &amp; Hiệu Ứng Weathering</strong></h3><p>Bề mặt mô hình được áp dụng <strong>kỹ thuật sơn mài tinh xảo</strong>, tạo ra <i>độ bóng bẩy và chiều sâu</i> cho lớp giáp. Thêm vào đó, các chi tiết <strong>weathering (hao mòn chiến trận)</strong> được thực hiện một cách <i>chân thực và nghệ thuật</i>, như vết trầy xước, bụi bẩn, hay hiệu ứng cháy xém, mang đến một Optimus Prime <i>đầy kinh nghiệm trận mạc và sống động</i>.</p><h3>2. <strong>Ánh Sáng LED &amp; Phụ Kiện Biểu Tượng</strong></h3><p>Mô hình được trang bị <strong>hệ thống đèn LED chiếu sáng</strong> ở mắt, mang lại <i>vẻ sống động và uy lực</i> cho Optimus Prime khi trưng bày trong điều kiện ánh sáng yếu. Đi kèm với mô hình là các phụ kiện biểu tượng:</p><ul><li><strong>Blaster (súng phóng tia):</strong> Được chế tác chi tiết, có thể gắn vào tay.</li><li><strong>Energy Axe (rìu năng lượng):</strong> Tái tạo hiệu ứng năng lượng phát sáng, gắn vào cánh tay.</li><li><strong>Matrix of Leadership:</strong> <i>Biểu tượng quyền lực</i> của Optimus, có thể được đặt bên trong ngực (tùy phiên bản).</li><li><strong>Bàn tay thay thế:</strong> Nhiều cặp bàn tay với các tư thế khác nhau để đa dạng hóa khả năng pose.</li><li>&nbsp;</li></ul><h2>III. Giá Trị Sưu Tầm Đẳng Cấp &amp; Trải Nghiệm Độc Đáo</h2><h3><strong>Biểu Tượng Của Niềm Đam Mê Transformers</strong></h3><p>Sở hữu mô hình Threezero DLX Optimus Prime không chỉ là việc thêm một sản phẩm vào bộ sưu tập; đó là <strong>đầu tư vào một biểu tượng</strong>, một <i>kiệt tác kỹ thuật</i> tôn vinh tinh thần Transformers. Đây là sản phẩm dành cho những người hâm mộ muốn sở hữu phiên bản Optimus Prime <i>chân thực, chi tiết và có giá trị nhất</i>, một vật phẩm sẽ <strong>nổi bật</strong> trong bất kỳ không gian trưng bày nào và khơi gợi lại những ký ức về cuộc chiến giữa Autobots và Decepticons.</p>', 6580000.00, 'images/products/m-hnh-transformers/threezero-dlx-optimus-prime-biu-tng-ca-cng-l-quyn-lc/main_1749627155_6849311387c12.jpg', 28, 0, '2025-06-11 07:32:35', NULL, 19),
 (50, 'Grimlock - The Ancient Lord - Bạo Chúa Khủng Long, Chiến Thần Hùng Mạnh', '<p><i><strong>Triệu hồi sức mạnh nguyên thủy và khí chất đế vương của Grimlock, thủ lĩnh vĩ đại của Dinobots, với mô hình cao cấp \"The Ancient Lord\" này – một kiệt tác kỹ thuật và nghệ thuật, tái hiện chân thực chiến thần đã vượt qua kỷ nguyên tiền sử để chiến đấu cho công lý!</strong></i></p><p>Mô hình Grimlock \"The Ancient Lord\" không chỉ là một vật phẩm trưng bày; <i>nó là hiện thân của sức mạnh, sự uy nghi và tinh thần bất khuất</i>. Được thiết kế với sự tỉ mỉ vượt trội và chế tác từ <strong>vật liệu cao cấp</strong>, mô hình này nắm bắt trọn vẹn sự giao thoa độc đáo giữa <i>dạng khủng long T-Rex thời tiền sử</i> và <i>dạng robot chiến đấu hiện đại</i>, mang đến một trải nghiệm sưu tầm <strong>đẳng cấp và mãn nhãn</strong>. Từ những chiếc răng sắc nhọn đến từng khớp nối cơ khí phức tạp, mỗi chi tiết đều được chăm chút để mang đến một Grimlock <i>sống động và đầy quyền năng</i>, sẵn sàng gầm thét \"Me Grimlock King!\".</p><h2>I. Đặc Tính Nổi Bật &amp; Hoàn Thiện Hình Ảnh Xuất Sắc</h2><h3>1. <strong>Hai Dạng Biến Hình Ấn Tượng: Robot &amp; Khủng Long T-Rex</strong></h3><p>Mô hình này thể hiện khả năng biến hình (transformation) phức tạp và mượt mà giữa hai dạng:</p><ul><li><strong>Dạng Robot:</strong> <i>Uy nghi và hầm hố</i>, với bộ giáp dày dặn, các chi tiết cơ khí lộ rõ và tư thế đứng vững chắc.</li><li><strong>Dạng Khủng Long (T-Rex):</strong> <i>Chân thực và dữ tợn</i>, tái hiện hoàn hảo bạo chúa tiền sử với lớp vảy, hàm răng sắc nhọn và cái đuôi mạnh mẽ. Sự chuyển đổi giữa hai dạng được thiết kế <strong>tinh vi</strong>, mang lại <i>sự hài lòng tối đa</i> cho người sưu tầm.</li></ul><h3>2. <strong>Chất Liệu Cao Cấp &amp; Cấu Trúc Bền Bỉ (Die-Cast Heavy)</strong></h3><p>Phần lớn khung xương và các khớp nối trọng yếu của mô hình được làm từ <strong>kim loại đúc (die-cast)</strong>, mang lại <i>trọng lượng đáng kể</i>, cảm giác <strong>đầm tay và độ bền vượt trội</strong>. Sự kết hợp giữa die-cast và nhựa ABS/POM chất lượng cao không chỉ tăng cường tuổi thọ mà còn giúp mô hình duy trì các tư thế pose dáng <i>phức tạp và ổn định</i> mà không lo bị lỏng khớp theo thời gian.</p><h3>3. <strong>Chi Tiết Điêu Khắc &amp; Sơn Phủ Tinh Xảo</strong></h3><p><i>Mỗi chi tiết nhỏ nhất</i> trên Grimlock, từ những đường nét trên giáp, các chi tiết động cơ, đến <i>kết cấu bề mặt vảy khủng long</i>, đều được <strong>điêu khắc sắc nét</strong>. Lớp sơn được áp dụng bằng <strong>kỹ thuật cao cấp</strong>, sử dụng nhiều lớp màu và sắc độ để tạo <i>hiệu ứng kim loại sáng bóng, độ phai màu nhẹ</i> (weathering effect) hoặc <i>dấu vết chiến đấu</i>, mang lại vẻ ngoài chân thực và cuốn hút.</p><p>&nbsp;</p><h2>II. Khả Năng Vận Động &amp; Tính Năng Nâng Cao</h2><h3>1. <strong>Khớp Nối Linh Hoạt &amp; Khả Năng Pose Đa Dạng</strong></h3><p>Với <strong>hệ thống khớp nối được thiết kế thông minh và bền bỉ</strong>, Grimlock \"The Ancient Lord\" mang lại <i>khả năng pose dáng cực kỳ linh hoạt</i>. Bạn có thể dễ dàng tái tạo các tư thế chiến đấu kinh điển, hành động dữ dội hoặc những khoảnh khắc biểu cảm, biến mô hình thành một <strong>action figure sống động</strong> trên kệ trưng bày.</p><p>&nbsp;</p><h3>2. <strong>Phụ Kiện Vũ Khí Đầy Đủ &amp; Hiệu Ứng Ánh Sáng&nbsp;</strong></h3><p>Mô hình đi kèm với <strong>bộ phụ kiện vũ khí đặc trưng</strong> của Grimlock, bao gồm <i>thanh kiếm năng lượng (Energon Sword) biểu tượng</i>, súng blaster, và các chi tiết thay thế (ví dụ: khuôn mặt thay thế). Một số phiên bản có thể tích hợp <strong>đèn LED</strong> ở mắt (dạng Robot hoặc Khủng Long) hoặc vũ khí, tạo ra <i>hiệu ứng phát sáng ấn tượng</i>, làm tăng thêm sự sống động và hoành tráng khi trưng bày.</p><p>&nbsp;</p><h2>III. Giá Trị Sưu Tầm &amp; Trưng Bày Đẳng Cấp</h2><h3><strong>Biểu Tượng Của Lòng Trung Thành &amp; Quyền Lực</strong></h3><p>Sở hữu mô hình Grimlock \"The Ancient Lord\" là việc <strong>sở hữu một phần lịch sử</strong> của vũ trụ Transformer và <i>tôn vinh một trong những nhân vật được yêu thích nhất</i>. Đây là sự khẳng định cho niềm đam mê của bạn, một <i>biểu tượng của sức mạnh nguyên thủy, lòng trung thành với Autobots</i> (theo cách riêng của Dinobots) và <strong>khí chất bất khuất</strong> của một chiến thần.</p>', 1390000.00, 'images/products/m-hnh-transformers/grimlock-the-ancient-lord-bo-cha-khng-long-chin-thn-hng-mnh/main_1749627346_684931d283071.jpg', 28, 0, '2025-06-11 07:35:46', NULL, 19),
@@ -251,23 +173,16 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `category
 (52, 'Bàn phím không dây Logitech MX Keys S Fullsize Graphite', '<h2><strong>Bàn phím không dây Fullsize Logitech MX Keys S - Fullsize thoải mái, phím gõ bền bỉ</strong></h2><p>Bàn phím không dây Fullsize Logitech MX Keys S sở hữu thiết kế Fullsize với đầy đủ các phím chức năng và phím số đảm bảo hiệu suất bền bỉ. Hơn nữa, phụ kiện&nbsp;bàn phím này còn được làm theo kiểu dáng công thái học với mức giá rẻ, hứa hẹn sẽ là một sản phẩm đáng đầu tư.</p><h3><strong>Thiết kế Fullsize, vỏ bằng hợp kim nhôm chất lượng</strong></h3><p>Bàn phím không dây Fullsize Logitech MX Keys S được thiết kế dựa trên bố cục Fullsize, đầy đủ các phím. Trong đó, sản phẩm còn có các công tắc cơ học xúc giác, mang lại hiệu quả phản hồi nhanh chóng khi chơi game FPS.</p><p>Lớp vỏ bên ngoài của Logitech MX Keys S được làm bằng hợp kim nhôm, góp phần tạo được độ bền vượt trội. Đặc biệt, bàn phím có chất liệu bền vững và có thể tái chế sau khi sử dụng, đem lại khả năng chống mài mòn và nâng cao tuổi thọ sử dụng bàn phím.&nbsp;</p><h3><strong>Trải nghiệm gõ êm ái với đèn LED chiếu sáng thông minh</strong></h3><p>Bàn phím không dây Fullsize Logitech MX Keys S có hành trình phím được làm ở cấu hình thấp, góp phần giúp cổ tay của bạn luôn được thoải mái, tự nhiên hơn. Từ đó, người dùng có thể gõ phím trong nhiều giờ liền và còn giúp giảm tiếng ồn tối ưu.</p><p>Để bạn dễ dàng tập trung mỗi khi sử dụng trong điều kiện thiếu sáng, bàn phím cũng có tích hợp hệ thống đèn nền LED. Tuy nhiên, hiệu ứng chiếu sáng đã được Logitech làm thông minh hơn. Cụ thể, khi tay bạn tiếp cận bàn phím đèn phím đó sẽ sáng lên và tự động mờ đi khi rời khỏi bàn làm việc.</p><h2><strong>Mua ngay bàn phím không dây Fullsize Logitech MX Keys S giá tốt tại Nexorevn E-commerce</strong></h2><p>Bàn phím không dây Fullsize Logitech MX Keys S hiện đang được bán tại Nexorevn E-commerce. Tại đây sản phẩm luôn được cam kết về độ chính hãng và giao hàng tận nơi.</p>', 3400000.00, 'images/products/bn-phm-logitech/bn-phm-khng-dy-logitech-mx-keys-s-fullsize-graphite/main_1749627938_68493422dd8bf.png', 29, 0, '2025-06-11 07:45:38', 2590000.00, 22),
 (53, 'Màn hình Gaming ASUS TUF VG249Q3A 24 inch', '<h2><strong>Màn hình Gaming ASUS TUF 24 VG249Q3A 24 inch - Công nghệ hiện đại, chơi game mượt mà</strong></h2><p>Màn hình Gaming ASUS TUF 24 VG249Q3A 24 inch sở hữu kích thước lớn trên tấm nền Fast IPS mới với tần số quét lên đến 180Hz. Hơn hết màn hình Asus này còn có gam màu cực chuẩn 99% sRGB, nên không chỉ ưu việt cho chơi game mà còn xử lý công việc đồ họa mượt mà.</p><h3><strong>Tốc độ làm mới 180Hz, trải nghiệm chơi game chuyên nghiệp</strong></h3><p>Màn hình Gaming ASUS TUF 24 VG249Q3A 24 inch là màn hình chơi game với tốc độ làm mới lên đến 180Hz. Kết hợp với đó là thời gian phản hồi 1ms nên mọi chuyển động nhanh chóng ngay ở các tựa game bắn súng đều diễn ra vô cùng mượt và liền mạch.</p><p>Bên cạnh đó, ASUS TUF 24 VG249Q3A 24 inch còn có sự góp mặt của tính năng đồng bộ độ mờ chuyển động cực thấp. Do đó, các hiện tượng mờ nhòe được loại bỏ hoàn toàn để làm rõ nét hơn các đối tượng và cho bạn trải nghiệm chơi game chuyên nghiệp, nhạy bén hơn.</p><h3><strong>Sử dụng công nghệ độc quyền và phần mềm DisplayWidget Center</strong></h3><p>Màn hình Gaming ASUS TUF 24 VG249Q3A 24 inch được tích hợp công nghệ ASUS Variable Overdrive độc quyền. Từ đó, ở các khung hình tốc độ cao, màn hình sẽ tự tăng tốc đảm bảo cho hiệu ứng tổng thể tối ưu hơn ở mọi trò chơi.&nbsp;</p><p>Ngoài ra, phần mềm DisplayWidget Center cũng được ASUS sử dụng nhằm cung cấp đến người dùng một giao diện trực quan. Vì thế, trong quá trình sử dụng, bạn có linh hoạt điều chỉnh các thông số thông qua chuột mà không cần vào menu OSD.</p><h2><strong>Mua ngay màn hình Gaming ASUS TUF 24 VG249Q3A 24 inch giá tốt với Nexorevn E-commerce</strong></h2><p>Với các tính năng và công nghệ dành riêng cho việc chơi game của màn hình Gaming ASUS TUF 24 VG249Q3A 24 inch chắc hẳn sẽ khiến các game thủ hài lòng. Do đó, bạn hãy đến với Nexorevn E-commerce để mua nhanh màn hình này với giá tốt nhé!</p>', 3990000.00, 'images/products/mn-hnh-asus/mn-hnh-gaming-asus-tuf-vg249q3a-24-inch/main_1749628248_6849355888d94.png', 31, 1, '2025-06-11 07:50:48', 2990000.00, 21);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `product_images`
---
 
-CREATE TABLE `product_images` (
-  `id` int NOT NULL,
-  `product_id` int DEFAULT NULL,
-  `image_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "product_images" (
+  "id" int NOT NULL,
+  "product_id" int DEFAULT NULL,
+  "image_path" varchar(255)  DEFAULT NULL
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `product_images`
---
 
-INSERT INTO `product_images` (`id`, `product_id`, `image_path`) VALUES
+INSERT INTO "product_images" ("id", "product_id", "image_path") VALUES
 (68, 21, 'images/products/m-hnh-dragonball/m-hnh-dragonball-super-son-goku-super-saiyan-blue-sc-mnh-thn-thnh-kh-cht-v-song/sub_1749545939_6847f3d3ad5de.jpg'),
 (69, 21, 'images/products/m-hnh-dragonball/m-hnh-dragonball-super-son-goku-super-saiyan-blue-sc-mnh-thn-thnh-kh-cht-v-song/sub_1749545939_6847f3d3ade75.jpg'),
 (70, 21, 'images/products/m-hnh-dragonball/m-hnh-dragonball-super-son-goku-super-saiyan-blue-sc-mnh-thn-thnh-kh-cht-v-song/sub_1749545939_6847f3d3ae415.jpg'),
@@ -405,257 +320,143 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_path`) VALUES
 (205, 53, 'images/products/mn-hnh-asus/mn-hnh-gaming-asus-tuf-vg249q3a-24-inch/sub_1749628248_6849355889f4a.png'),
 (206, 53, 'images/products/mn-hnh-asus/mn-hnh-gaming-asus-tuf-vg249q3a-24-inch/sub_1749628248_684935588a2f5.png');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `reviews`
---
 
-CREATE TABLE `reviews` (
-  `id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `rating` tinyint NOT NULL,
-  `comment` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "reviews" (
+  "id" int NOT NULL,
+  "product_id" int NOT NULL,
+  "user_id" int NOT NULL,
+  "rating" tinyint NOT NULL,
+  "comment" text ,
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `reviews`
---
 
-INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `created_at`) VALUES
+INSERT INTO "reviews" ("id", "product_id", "user_id", "rating", "comment", "created_at") VALUES
 (23, 41, 14, 5, 'Mô hình rất đẹp!', '2025-06-11 06:35:10'),
 (24, 32, 14, 5, 'wooooooo', '2025-06-11 08:21:18'),
 (25, 47, 14, 5, 'sản phẩm rất đẹp!', '2025-06-11 14:50:35');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `users`
---
 
-CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` enum('customer','admin') COLLATE utf8mb4_unicode_ci DEFAULT 'customer',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE "users" (
+  "id" int NOT NULL,
+  "username" varchar(50)  NOT NULL,
+  "password" varchar(255)  NOT NULL,
+  "email" varchar(100)  NOT NULL,
+  "phone" varchar(15)  DEFAULT NULL,
+  "role" enum('customer','admin')  DEFAULT 'customer',
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `users`
---
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `phone`, `role`, `created_at`) VALUES
+INSERT INTO "users" ("id", "username", "password", "email", "phone", "role", "created_at") VALUES
 (5, 'Admin', '$2y$10$cfTi4.fns0AgYsCJIeYrkeSVypfALFuuTOIZzEiDMWqvqhxnYomTC', 'nhieuphuc2004@gmail.com', '0903468571', 'admin', '2025-06-05 07:17:14'),
 (14, 'Yosse', '$2y$10$sUzsBnlJGWiEAe9JTO1u.OQP1M3rFeUq/IeEHC10Sv5oeBnKhHAn.', 'honghongphuc12345@gmail.com', '0932088279', 'customer', '2025-06-10 07:01:18');
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `banners`
---
-ALTER TABLE `banners`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE "banners"
+  ADD PRIMARY KEY ("id");
 
---
--- Indexes for table `brands`
---
-ALTER TABLE `brands`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE "brands"
+  ADD PRIMARY KEY ("id");
 
---
--- Indexes for table `cart`
---
-ALTER TABLE `cart`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `product_id` (`product_id`);
+ALTER TABLE "cart"
+  ADD PRIMARY KEY ("id"),
+  ADD KEY "user_id" ("user_id"),
+  ADD KEY "product_id" ("product_id");
 
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `parent_id` (`parent_id`);
+ALTER TABLE "categories"
+  ADD PRIMARY KEY ("id"),
+  ADD KEY "parent_id" ("parent_id");
 
---
--- Indexes for table `contacts`
---
-ALTER TABLE `contacts`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE "contacts"
+  ADD PRIMARY KEY ("id");
 
---
--- Indexes for table `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+ALTER TABLE "orders"
+  ADD PRIMARY KEY ("id"),
+  ADD KEY "user_id" ("user_id");
 
---
--- Indexes for table `order_details`
---
-ALTER TABLE `order_details`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `order_id` (`order_id`),
-  ADD KEY `product_id` (`product_id`);
+ALTER TABLE "order_details"
+  ADD PRIMARY KEY ("id"),
+  ADD KEY "order_id" ("order_id"),
+  ADD KEY "product_id" ("product_id");
 
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`),
-  ADD KEY `brand_id` (`brand_id`);
+ALTER TABLE "products"
+  ADD PRIMARY KEY ("id"),
+  ADD KEY "category_id" ("category_id"),
+  ADD KEY "brand_id" ("brand_id");
 
---
--- Indexes for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
+ALTER TABLE "product_images"
+  ADD PRIMARY KEY ("id"),
+  ADD KEY "product_id" ("product_id");
 
---
--- Indexes for table `reviews`
---
-ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`),
-  ADD KEY `user_id` (`user_id`);
+ALTER TABLE "reviews"
+  ADD PRIMARY KEY ("id"),
+  ADD KEY "product_id" ("product_id"),
+  ADD KEY "user_id" ("user_id");
 
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+ALTER TABLE "users"
+  ADD PRIMARY KEY ("id"),
+  ADD UNIQUE KEY "email" ("email");
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `banners`
---
-ALTER TABLE `banners`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+ALTER TABLE "banners"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=27;
 
---
--- AUTO_INCREMENT for table `brands`
---
-ALTER TABLE `brands`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+ALTER TABLE "brands"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=23;
 
---
--- AUTO_INCREMENT for table `cart`
---
-ALTER TABLE `cart`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE "cart"
+  MODIFY "id" SERIAL PRIMARY KEY;
 
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+ALTER TABLE "categories"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=32;
 
---
--- AUTO_INCREMENT for table `contacts`
---
-ALTER TABLE `contacts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE "contacts"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=6;
 
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+ALTER TABLE "orders"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=31;
 
---
--- AUTO_INCREMENT for table `order_details`
---
-ALTER TABLE `order_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+ALTER TABLE "order_details"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=22;
 
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+ALTER TABLE "products"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=54;
 
---
--- AUTO_INCREMENT for table `product_images`
---
-ALTER TABLE `product_images`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
+ALTER TABLE "product_images"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=207;
 
---
--- AUTO_INCREMENT for table `reviews`
---
-ALTER TABLE `reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+ALTER TABLE "reviews"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=26;
 
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+ALTER TABLE "users"
+  MODIFY "id" SERIAL PRIMARY KEY, AUTO_INCREMENT=15;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `cart`
---
-ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE "cart"
+  ADD CONSTRAINT "cart_ibfk_1" FOREIGN KEY ("user_id") REFERENCES "users" ("id"),
+  ADD CONSTRAINT "cart_ibfk_2" FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
---
--- Constraints for table `categories`
---
-ALTER TABLE `categories`
-  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
+ALTER TABLE "categories"
+  ADD CONSTRAINT "categories_ibfk_1" FOREIGN KEY ("parent_id") REFERENCES "categories" ("id") ON DELETE SET NULL;
 
---
--- Constraints for table `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE "orders"
+  ADD CONSTRAINT "orders_ibfk_1" FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
---
--- Constraints for table `order_details`
---
-ALTER TABLE `order_details`
-  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE "order_details"
+  ADD CONSTRAINT "order_details_ibfk_1" FOREIGN KEY ("order_id") REFERENCES "orders" ("id"),
+  ADD CONSTRAINT "order_details_ibfk_2" FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
---
--- Constraints for table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`);
+ALTER TABLE "products"
+  ADD CONSTRAINT "products_ibfk_1" FOREIGN KEY ("category_id") REFERENCES "categories" ("id"),
+  ADD CONSTRAINT "products_ibfk_2" FOREIGN KEY ("brand_id") REFERENCES "brands" ("id");
 
---
--- Constraints for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE "product_images"
+  ADD CONSTRAINT "product_images_ibfk_1" FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
---
--- Constraints for table `reviews`
---
-ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
-  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE "reviews"
+  ADD CONSTRAINT "reviews_ibfk_1" FOREIGN KEY ("product_id") REFERENCES "products" ("id"),
+  ADD CONSTRAINT "reviews_ibfk_2" FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
