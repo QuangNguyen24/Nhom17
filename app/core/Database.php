@@ -8,7 +8,7 @@ class Database {
         // Load .env
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../../'); // đúng thư mục MVC/
         $dotenv->load();
-        var_dump($_ENV);  // hoặc print_r($_ENV);
+    
 
 
         // Nên dùng $_ENV (an toàn hơn getenv())
