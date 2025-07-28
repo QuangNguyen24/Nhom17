@@ -122,7 +122,6 @@ function renderProducts($data, $conn, $title, $filterType, $btn_class = 'btn-out
 
 <!-- Các khối sản phẩm -->
  <?php
-<pre><?php print_r($data['featured']['products']); ?></pre>
 renderProducts($data['featured'], $conn, '🔥 Sản phẩm nổi bật', 'featured', 'btn-outline-primary', pageKey: 'featured');
 
 renderProducts($data['newest'], $conn, '🆕 Sản phẩm mới nhất', 'newest', 'btn-outline-secondary', pageKey: 'newest');
