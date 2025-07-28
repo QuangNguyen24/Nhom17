@@ -201,6 +201,7 @@ if (!empty($filters['rating'])) {
 $countStmt->execute();
 
 
+
     $totalRows = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
     $totalPages = ceil($totalRows / $limit);
 
