@@ -28,17 +28,19 @@ public function getByUsername($username) {
     }
 
 public function create($data) {
-    $conn = Database::connect();
-    $stmt = $conn->prepare("INSERT INTO users (username, email, phone, password, role) 
-                            VALUES (:username, :email, :phone, :password, :role)");
-    return $stmt->execute([
-        'username' => $data['username'],
-        'email'    => $data['email'],
-        'phone'    => $data['phone'],
-        'password' => password_hash($data['password'], PASSWORD_DEFAULT),
-        'role'     => $data['role']
-    ]);
+    try {
+        $conn = Database::connect();
+        $stmt = $conn->prepare("INSERT INTO users (username, email, phone, password, role) 
+                                VALUES (:username, :email, :phone, :password, :role)");
+        return $stmt->execute([
+            'username' => $data['username'],
+            'email'    => $data['email'],
+            'phone'    => $data['phone'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+            'role'     => $data['role']
+        ]);
+    } catch (PDOException $e) {
+        die("Đăng ký thất bại: " . $e->getMessage());
+    }
 }
-
-
 }
