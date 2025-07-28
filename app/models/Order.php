@@ -8,23 +8,23 @@ class Order {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function create($data) {
-        $conn = Database::connect();
-        $stmt = $conn->prepare("
-            INSERT INTO orders (fullname, email, phone, address, total_price, method_payment, status, user_id)
-            VALUES (:fullname, :email, :phone, :address, :total_price, :method_payment, :status, :user_id)
-            RETURNING id
-        ");
-        $stmt->execute([
-            'fullname'        => $data['fullname'],
-            'email'           => $data['email'],
-            'phone'           => $data['phone'],
-            'address'         => $data['address'],
-            'total_price'     => $data['total_price'],
-            'method_payment'  => $data['method_payment'],
-            'status'          => $data['status'],
-            'user_id'         => $data['user_id']
-        ]);
-        return $stmt->fetchColumn(); // Lấy id mới insert
-    }
+public static function create($data) {
+    $conn = Database::connect();
+    $stmt = $conn->prepare("
+        INSERT INTO orders (fullname, email, phone, address, total_price, method_payment, status, user_id)
+        VALUES (:fullname, :email, :phone, :address, :total_price, :method_payment, :status, :user_id)
+        RETURNING id
+    ");
+    $stmt->execute([
+        'fullname'        => $data['fullname'],
+        'email'           => $data['email'],
+        'phone'           => $data['phone'],
+        'address'         => $data['address'],
+        'total_price'     => $data['total_price'],
+        'method_payment'  => $data['method_payment'],
+        'status'          => $data['status'],
+        'user_id'         => $data['user_id']
+    ]);
+    return $stmt->fetchColumn(); // Trả về id vừa thêm
 }
+
