@@ -194,11 +194,12 @@ public function getAverageRating($product_id) {
                      ) AS subquery";
     }
 
-    $countStmt = $this->db->prepare($countSql);
-    if (!empty($filters['rating'])) {
-        $countStmt->bindValue(':rating', (int)$filters['rating'], PDO::PARAM_INT);
-    }
-    $countStmt->execute();
+$countStmt = $this->db->prepare($countSql);
+foreach ($params as $key => $val) {
+    $countStmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+}
+$countStmt->execute();
+
     $totalRows = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
     $totalPages = ceil($totalRows / $limit);
 
@@ -212,13 +213,14 @@ public function getAverageRating($product_id) {
     private function getChildCategoryIds($parentId) {
     $ids = [$parentId];
 
-    $stmt = $this->db->prepare("SELECT id FROM categories WHERE parent_id = ?");
-    $stmt->bind_param("i", $parentId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    while ($row = $result->fetch_assoc()) {
-        $ids[] = $row['id'];
+$stmt = $this->db->prepare("SELECT id FROM categories WHERE parent_id = :id");
+$stmt->bindValue(':id', $parentId, PDO::PARAM_INT);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $row) {
+    $ids[] = $row['id'];
+}
+ids[] = $row['id'];
     }
 
     return $ids;
