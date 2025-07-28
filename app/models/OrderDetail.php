@@ -6,7 +6,7 @@ class OrderDetail
 
     public function __construct()
     {
-        $this->db = Database::connect(); // PDO connection
+        $this->db = Database::connect(); // PDO
     }
 
     public function create($order_id, $product_id, $quantity, $price)
@@ -14,12 +14,12 @@ class OrderDetail
         $subtotal = $price * $quantity;
         $stmt = $this->db->prepare("INSERT INTO order_details (order_id, product_id, quantity, price, subtotal) 
                                     VALUES (:order_id, :product_id, :quantity, :price, :subtotal)");
-        $stmt->execute([
-            ':order_id'   => $order_id,
-            ':product_id' => $product_id,
-            ':quantity'   => $quantity,
-            ':price'      => $price,
-            ':subtotal'   => $subtotal
+        return $stmt->execute([
+            'order_id' => $order_id,
+            'product_id' => $product_id,
+            'quantity' => $quantity,
+            'price' => $price,
+            'subtotal' => $subtotal
         ]);
     }
 
@@ -29,9 +29,9 @@ class OrderDetail
             $product_id = intval($product_id);
             $quantity = intval($quantity);
 
-            // ✅ Lấy giá từ sản phẩm
+            // Lấy giá sản phẩm
             $stmt = $this->db->prepare("SELECT price, discount_price FROM products WHERE id = :id");
-            $stmt->execute([':id' => $product_id]);
+            $stmt->execute(['id' => $product_id]);
             $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$product) continue;
@@ -39,15 +39,15 @@ class OrderDetail
             $price = ($product['discount_price'] > 0) ? $product['discount_price'] : $product['price'];
             $subtotal = $price * $quantity;
 
-            // ✅ Thêm vào order_details
+            // Thêm chi tiết đơn hàng
             $insert = $this->db->prepare("INSERT INTO order_details (order_id, product_id, quantity, price, subtotal) 
                                           VALUES (:order_id, :product_id, :quantity, :price, :subtotal)");
             $insert->execute([
-                ':order_id'   => $order_id,
-                ':product_id' => $product_id,
-                ':quantity'   => $quantity,
-                ':price'      => $price,
-                ':subtotal'   => $subtotal
+                'order_id' => $order_id,
+                'product_id' => $product_id,
+                'quantity' => $quantity,
+                'price' => $price,
+                'subtotal' => $subtotal
             ]);
         }
     }
@@ -60,7 +60,7 @@ class OrderDetail
             JOIN products p ON od.product_id = p.id 
             WHERE od.order_id = :order_id
         ");
-        $stmt->execute([':order_id' => $order_id]);
+        $stmt->execute(['order_id' => $order_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
