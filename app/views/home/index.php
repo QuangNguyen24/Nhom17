@@ -15,13 +15,13 @@ include_once __DIR__ . '/../layouts/header.php'; ?>
 <!-- Banner -->
 <div id="mainBanner" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
   <div class="carousel-inner">
-    <?php $first = true; while ($b = $data['banners']->fetch_assoc()): ?>
-      <div class="carousel-item <?= $first ? 'active' : '' ?>">
-        <a href="<?= $b['link'] ?>">
-          <img src="<?= BASE_URL . '/' . htmlspecialchars($b['image']) ?>" class="d-block w-100 banner-img" alt="Banner">
-        </a>
-      </div>
-    <?php $first = false; endwhile; ?>
+<?php foreach ($data['banners'] as $index => $b): ?>
+  <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+    <a href="<?= $b['link'] ?>">
+      <img src="<?= BASE_URL . '/' . htmlspecialchars($b['image']) ?>" class="d-block w-100 banner-img" alt="Banner">
+    </a>
+  </div>
+<?php endforeach; ?>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#mainBanner" data-bs-slide="prev">
     <span class="carousel-control-prev-icon"></span>
