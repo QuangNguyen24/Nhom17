@@ -23,35 +23,33 @@ class OrderDetail
         ]);
     }
 
-    public function saveDetails($order_id, $cart)
-    {
-        foreach ($cart as $product_id => $quantity) {
-            $product_id = intval($product_id);
-            $quantity = intval($quantity);
+   public function saveDetails($order_id, $cart)
+{
+    foreach ($cart as $product_id => $quantity) {
+        $product_id = intval($product_id);
+        $quantity = intval($quantity);
 
-            // Lấy giá sản phẩm
-            $stmt = $this->db->prepare("SELECT price, discount_price FROM products WHERE id = :id");
-            $stmt->execute(['id' => $product_id]);
-            $product = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Truy giá
+        $stmt = $this->db->prepare("SELECT price, discount_price FROM products WHERE id = :id");
+        $stmt->execute(['id' => $product_id]);
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!$product) continue;
+        if (!$product) continue;
 
-            $price = ($product['discount_price'] > 0) ? $product['discount_price'] : $product['price'];
-            $subtotal = $price * $quantity;
+        $price = floatval(($product['discount_price'] ?? 0) > 0 ? $product['discount_price'] : $product['price']);
+        $subtotal = $price * $quantity;
 
-            // Thêm chi tiết đơn hàng
-$stmt = $this->db->prepare("INSERT INTO order_details (order_id, product_id, quantity, price, subtotal) 
-                            VALUES (:order_id, :product_id, :quantity, :price, :subtotal)");
-$stmt->execute([
-    'order_id' => $order_id,
-    'product_id' => $product_id,
-    'quantity' => $quantity,
-    'price' => $price,
-    'subtotal' => $subtotal
-]);
-
-        }
+        $stmt = $this->db->prepare("INSERT INTO order_details (order_id, product_id, quantity, price, subtotal) VALUES (:order_id, :product_id, :quantity, :price, :subtotal)");
+        $stmt->execute([
+            'order_id' => $order_id,
+            'product_id' => $product_id,
+            'quantity' => $quantity,
+            'price' => $price,
+            'subtotal' => $subtotal
+        ]);
     }
+}
+
 
     public function getDetailsByOrderId($order_id)
     {
