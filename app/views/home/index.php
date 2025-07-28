@@ -1,5 +1,5 @@
 <?php
-$conn = (new Database())->connect(); 
+
 include_once __DIR__ . '/../layouts/header.php'; ?>
 
 <style>
