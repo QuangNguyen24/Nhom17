@@ -162,7 +162,7 @@ public function getAverageRating($product_id) {
             LEFT JOIN brands b ON p.brand_id = b.id
             LEFT JOIN reviews r ON p.id = r.product_id
             WHERE $where
-            GROUP BY p.id";
+            GROUP BY p.id, c.name, b.name";
 
     if (!empty($filters['rating'])) {
         $sql .= " HAVING avg_rating >= :rating";
@@ -308,7 +308,7 @@ public function getByType($type, $filters = []) {
             LEFT JOIN brands b ON p.brand_id = b.id
             LEFT JOIN reviews r ON p.id = r.product_id
             WHERE $where
-            GROUP BY p.id
+            GROUP BY p.id, c.name, b.name
             $order
             LIMIT $limit OFFSET $offset";
 
