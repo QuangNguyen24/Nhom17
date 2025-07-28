@@ -40,15 +40,16 @@ class OrderDetail
             $subtotal = $price * $quantity;
 
             // Thêm chi tiết đơn hàng
-            $insert = $this->db->prepare("INSERT INTO order_details (order_id, product_id, quantity, price, subtotal) 
-                                          VALUES (:order_id, :product_id, :quantity, :price, :subtotal)");
-            $insert->execute([
-                'order_id' => $order_id,
-                'product_id' => $product_id,
-                'quantity' => $quantity,
-                'price' => $price,
-                'subtotal' => $subtotal
-            ]);
+$stmt = $this->db->prepare("INSERT INTO order_details (order_id, product_id, quantity, price, subtotal) 
+                            VALUES (:order_id, :product_id, :quantity, :price, :subtotal)");
+$stmt->execute([
+    'order_id' => $order_id,
+    'product_id' => $product_id,
+    'quantity' => $quantity,
+    'price' => $price,
+    'subtotal' => $subtotal
+]);
+
         }
     }
 
