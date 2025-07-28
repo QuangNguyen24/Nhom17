@@ -195,10 +195,11 @@ public function getAverageRating($product_id) {
     }
 
 $countStmt = $this->db->prepare($countSql);
-foreach ($params as $key => $val) {
-    $countStmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+if (!empty($filters['rating'])) {
+    $countStmt->bindValue(':rating', (int)$filters['rating'], PDO::PARAM_INT);
 }
 $countStmt->execute();
+
 
     $totalRows = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
     $totalPages = ceil($totalRows / $limit);
