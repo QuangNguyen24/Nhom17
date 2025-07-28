@@ -218,19 +218,21 @@ $countStmt->execute();
     ];
 }
 
-    private function getChildCategoryIds($parentId) {
+private function getChildCategoryIds($parentId) {
     $ids = [$parentId];
 
-$stmt = $this->db->prepare("SELECT id FROM categories WHERE parent_id = :id");
-$stmt->bindValue(':id', $parentId, PDO::PARAM_INT);
-$stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-foreach ($result as $row) {
-    $ids[] = $row['id'];
+    $stmt = $this->db->prepare("SELECT id FROM categories WHERE parent_id = :id");
+    $stmt->bindValue(':id', $parentId, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($result as $row) {
+        $ids[] = $row['id'];
+    }
+
+    return $ids;
 }
-ids[] = $row['id'];
-     return $ids;
-}
+
 public function calculateCartTotal($cart) {
     $total = 0;
     foreach ($cart as $productId => $quantity) {
