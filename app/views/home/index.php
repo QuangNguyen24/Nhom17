@@ -1,4 +1,6 @@
-<?php include_once __DIR__ . '/../layouts/header.php'; ?>
+<?php
+$conn = (new Database())->connect(); 
+include_once __DIR__ . '/../layouts/header.php'; ?>
 
 <style>
   .banner-img {
@@ -39,8 +41,10 @@
 
 <?php
 function renderRating($product_id, $conn) {
-    $review_q = $conn->query("SELECT ROUND(AVG(rating),1) as avg_rating, COUNT(*) as total FROM reviews WHERE product_id = $product_id");
-    $review = $review_q->fetch_assoc();
+    $stmt = $conn->prepare("SELECT ROUND(AVG(rating),1) as avg_rating, COUNT(*) as total FROM reviews WHERE product_id = ?");
+    $stmt->execute([$product_id]);
+    $review = $stmt->fetch(PDO::FETCH_ASSOC);
+
     $avg = $review['avg_rating'] ?? 0;
     $total = $review['total'] ?? 0;
 
@@ -51,6 +55,7 @@ function renderRating($product_id, $conn) {
               $stars <span class='text-muted' style='font-size: 0.9rem;'>($total đánh giá)</span>
             </div>";
 }
+
 
 function renderProducts($data, $conn, $title,  $filterType, $btn_class = 'btn-outline-primary', $pageKey = '') {
     $products = $data['products'];
