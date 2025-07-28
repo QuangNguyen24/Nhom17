@@ -170,11 +170,16 @@ public function getAverageRating($product_id) {
     }
 
     $sql .= " $sortSql LIMIT $limit OFFSET $offset";
-    $stmt = $this->db->prepare($sql);
-    foreach ($params as $key => $val) {
-        $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
-    }
+$stmt = $this->db->prepare($sql);
+foreach ($params as $key => $val) {
+    $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+}
+try {
     $stmt->execute();
+} catch (PDOException $e) {
+    die("❌ Lỗi thực thi getFilteredProducts: " . $e->getMessage());
+}
+
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Count total
