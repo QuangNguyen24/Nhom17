@@ -57,7 +57,7 @@ function renderRating($product_id, $conn) {
 }
 
 
-function renderProducts($data, $conn, $title,  $filterType, $btn_class = 'btn-outline-primary', $pageKey = '') {
+function renderProducts($data, $conn, $title, $filterType, $btn_class = 'btn-outline-primary', $pageKey = '') {
     $products = $data['products'];
     $page = $data['page'];
     $totalPages = $data['total_pages'];
@@ -72,8 +72,7 @@ function renderProducts($data, $conn, $title,  $filterType, $btn_class = 'btn-ou
     echo "  </div>
             <div class='row'>";
 
-
-    while ($product = $products->fetch_assoc()):
+    foreach ($products as $product):
         $price = (float)$product['price'];
         $discount = (float)$product['discount_price'];
         $has_discount = $discount > 0 && $discount < $price;
@@ -98,7 +97,8 @@ function renderProducts($data, $conn, $title,  $filterType, $btn_class = 'btn-ou
           </div>
         </div>
 <?php
-    endwhile;
+    endforeach;
+
     echo "</div>";
 
     // Phân trang
@@ -116,6 +116,7 @@ function renderProducts($data, $conn, $title,  $filterType, $btn_class = 'btn-ou
 
     echo "</div>";
 }
+
 ?>
 
 <!-- Các khối sản phẩm -->
