@@ -1,12 +1,24 @@
 <?php
+require_once __DIR__ . '/../../vendor/autoload.php'; // đường dẫn đúng đến autoload
+
+use Dotenv\Dotenv;
+
 class Database {
     public static function connect() {
-        $url = getenv('DATABASE_URL');
+        // Load .env
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../'); // đúng thư mục MVC/
+        $dotenv->load();
+        var_dump($_ENV);  // hoặc print_r($_ENV);
+
+
+        // Nên dùng $_ENV (an toàn hơn getenv())
+        $url = $_ENV['DATABASE_URL'] ?? null;
 
         if (!$url) {
             die("❌ DATABASE_URL chưa được thiết lập.");
         }
 
+        // Parse DB info
         $dbparts = parse_url($url);
 
         $host = $dbparts['host'];
@@ -24,6 +36,5 @@ class Database {
             die("❌ Kết nối DB thất bại: " . $e->getMessage());
         }
     }
-}
 
-?>
+}?>
