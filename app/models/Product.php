@@ -200,10 +200,11 @@ try {
     }
 
 $countStmt = $this->db->prepare($countSql);
-if (!empty($filters['rating'])) {
-    $countStmt->bindValue(':rating', (int)$filters['rating'], PDO::PARAM_INT);
+foreach ($params as $key => $val) {
+    $countStmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
 }
 $countStmt->execute();
+
 
 
 
