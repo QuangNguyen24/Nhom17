@@ -6,16 +6,17 @@ class Category {
         $this->db = (new Database())->connect(); // Hoặc getInstance()->getConnection()
     }
 
-    public function getAll() {
-    $result = $this->db->query("SELECT * FROM categories ORDER BY parent_id ASC, name ASC");
-    return $result->fetch_all(MYSQLI_ASSOC);
+public function getAll() {
+    $stmt = $this->db->query("SELECT * FROM categories ORDER BY name ASC");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
+
     public function find($id) {
-        $stmt = $this->db->prepare("SELECT * FROM categories WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_assoc();
+$stmt = $this->db->prepare("SELECT * FROM categories WHERE id = :id");
+$stmt->execute(['id' => $id]);
+return $stmt->fetch(PDO::FETCH_ASSOC);
+
     }
 }
