@@ -1,11 +1,18 @@
 <?php
 
 class User {
-    public static function getByUsername($username) {
+public function exists($username) {
     $conn = Database::connect();
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+    $stmt = $conn->prepare("SELECT 1 FROM users WHERE username = :username LIMIT 1");
     $stmt->execute(['username' => $username]);
-    return $stmt->fetch();
+    return $stmt->fetchColumn() !== false;
+}
+
+public function getByUsername($username) {
+    $conn = Database::connect();
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
+    $stmt->execute(['username' => $username]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
     public static function all() {
         $conn = Database::connect();
@@ -20,15 +27,18 @@ class User {
         return $stmt->fetch();
     }
 
-    public static function create($data) {
-        $conn = Database::connect();
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
-        return $stmt->execute([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password']
-        ]);
-    }
+public function create($data) {
+    $conn = Database::connect();
+    $stmt = $conn->prepare("INSERT INTO users (username, email, phone, password, role) 
+                            VALUES (:username, :email, :phone, :password, :role)");
+    return $stmt->execute([
+        'username' => $data['username'],
+        'email'    => $data['email'],
+        'phone'    => $data['phone'],
+        'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+        'role'     => $data['role']
+    ]);
+}
 
 
 }
