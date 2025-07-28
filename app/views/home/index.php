@@ -56,6 +56,7 @@ function renderRating($product_id, $conn) {
             </div>";
 }
 
+<pre><?php print_r($data['featured']['products']); ?></pre>
 
 function renderProducts($data, $conn, $title, $filterType, $btn_class = 'btn-outline-primary', $pageKey = '') {
     $products = $data['products'];
