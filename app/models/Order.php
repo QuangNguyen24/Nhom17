@@ -27,4 +27,5 @@ public static function create($data) {
     ]);
     return $stmt->fetchColumn(); // Trả về id vừa thêm
 }
+}
 
