@@ -6,12 +6,13 @@ class Review {
         $this->conn = Database::connect();
     }
 
-    public function getByProduct($product_id) {
-    $id = intval($product_id);
-    $query = "SELECT r.*, u.username FROM reviews r JOIN users u ON r.user_id = u.id WHERE r.product_id = $id ORDER BY r.created_at DESC";
-    $result = mysqli_query($this->conn, $query);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC); // ✅ Phải có fetch_all
+public function getByProduct($productId) {
+    $stmt = $this->db->prepare("SELECT * FROM reviews WHERE product_id = :id");
+    $stmt->bindValue(':id', $productId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 
     public function getAverage($product_id) {
