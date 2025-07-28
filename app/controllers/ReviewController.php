@@ -43,10 +43,11 @@ class ReviewController extends Controller {
         $username = $_SESSION['user']['username'] ?? null;
         if (!$username) {
             $db = (new Database())->connect();
-            $stmt = $db->prepare("SELECT username FROM users WHERE id = ?");
-            $stmt->bind_param("i", $user_id);
-            $stmt->execute();
-            $username = $stmt->get_result()->fetch_assoc()['username'] ?? 'Người dùng';
+$stmt = $db->prepare("SELECT username FROM users WHERE id = :id");
+$stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
+$stmt->execute();
+$username = $stmt->fetch(PDO::FETCH_ASSOC)['username'] ?? 'Người dùng';
+
         }
 
         echo json_encode([
