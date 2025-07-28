@@ -41,7 +41,7 @@ include_once __DIR__ . '/../layouts/header.php'; ?>
 
 <?php
 function renderRating($product_id, $conn) {
-    $stmt = $conn->prepare("SELECT ROUND(AVG(rating),1) as avg_rating, COUNT(*) as total FROM reviews WHERE product_id = ?");
+    $stmt = $conn->prepare("SELECT ROUND(AVG(rating),1) as avg_rating, COUNT(*) as total FROM reviews WHERE product_id = :id");
     $stmt->execute([$product_id]);
     $review = $stmt->fetch(PDO::FETCH_ASSOC);
 
