@@ -231,8 +231,6 @@ foreach ($result as $row) {
 ids[] = $row['id'];
      return $ids;
 }
-
-
 public function calculateCartTotal($cart) {
     $total = 0;
     foreach ($cart as $productId => $quantity) {
