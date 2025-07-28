@@ -9,7 +9,8 @@ class Banner {
 
    public function getActiveBanners() {
     try {
-        return $this->db->query("SELECT * FROM banners WHERE is_active = 1 ORDER BY created_at DESC");
+        return $this->db->query("SELECT * FROM banners WHERE is_active = true ORDER BY created_at DESC");
+
     } catch (PDOException $e) {
         die("❌ Lỗi SQL: " . $e->getMessage());
     }
