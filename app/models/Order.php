@@ -7,6 +7,14 @@ class Order {
         $stmt->execute(['user_id' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public static function getById($order_id) {
+    $conn = Database::connect();
+    $stmt = $conn->prepare("SELECT * FROM orders WHERE id = :id");
+    $stmt->bindValue(':id', $order_id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 
 public static function create($data) {
     $conn = Database::connect();
