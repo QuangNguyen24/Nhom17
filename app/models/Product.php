@@ -6,12 +6,12 @@ class Product {
         $this->db = (new Database())->connect();
     }
 
-    public function getFeatured($limit = 8) {
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE is_featured = 1 ORDER BY created_at DESC LIMIT ?");
-        $stmt->bind_param("i", $limit);
-        $stmt->execute();
-        return $stmt->get_result();
-    }
+public function getFeatured($limit = 8) {
+    $stmt = $this->db->prepare("SELECT * FROM products WHERE is_featured = true ORDER BY created_at DESC LIMIT :limit");
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
     public function getNewest($limit = 8) {
         $stmt = $this->db->prepare("SELECT * FROM products ORDER BY created_at DESC LIMIT ?");
