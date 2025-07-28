@@ -1,6 +1,12 @@
 <?php
 
 class User {
+    public static function getByUsername($username) {
+    $conn = Database::connect();
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+    $stmt->execute(['username' => $username]);
+    return $stmt->fetch();
+}
     public static function all() {
         $conn = Database::connect();
         $stmt = $conn->query("SELECT * FROM users");
@@ -23,11 +29,6 @@ class User {
             'password' => $data['password']
         ]);
     }
-    public static function getByUsername($username) {
-    $conn = Database::connect();
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
-    $stmt->execute(['username' => $username]);
-    return $stmt->fetch();
-}
+
 
 }
