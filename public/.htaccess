@@ -1,7 +1,11 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /MVC/public/
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
-</IfModule>
+RewriteEngine On
+
+# Tránh loop favicon
+RewriteCond %{REQUEST_URI} !^/favicon.ico$
+
+# Chỉ redirect nếu không phải file thật hoặc thư mục
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite về index.php
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
