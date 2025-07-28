@@ -41,50 +41,7 @@
                 Nexorevn E-commerce là nơi hội tụ những con người trẻ trung, năng động và cùng chung một lý tưởng "Xây dựng nền tảng thương mại điện tử chất lượng và đầy cảm hứng".
             </p>
         </div>
-
-        <!-- Carousel đội ngũ -->
-        <div id="teamCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row justify-content-center">
-                        <div class="col-10 col-sm-6 col-md-3 text-center">
-                            <img src="<?= BASE_URL ?>/images/team/ceo.png" class="rounded-circle shadow-sm mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="CEO">
-                            <h6> Nhiêu Hồng Phúc </h6>
-                            <small class="text-muted"> Lập trình viên </small>
-                        </div>
-                        <div class="col-10 col-sm-6 col-md-3 text-center">
-                            <img src="<?= BASE_URL ?>/images/team/admin.png   " class="rounded-circle shadow-sm mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="Customer Support">
-                            <h6>Nguyễn Thị Như Quỳnh</h6>
-                            <small class="text-muted"> Quản trị Website </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row justify-content-center">
-
-                    <div class="col-10 col-sm-6 col-md-3 text-center">
-                            <img src="<?= BASE_URL ?>/images/team/support.jpg" class="rounded-circle shadow-sm mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="Customer Support">
-                            <h6>Phạm Hoàng Phúc</h6>
-                            <small class="text-muted"> Quản trị website</small>
-                        </div>
-
-                        <div class="col-10 col-sm-6 col-md-3 text-center">
-                            <img src="<?= BASE_URL ?>/images/team/phuong.png" class="rounded-circle shadow-sm mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="Developer">
-                            <h6> Lê Minh Phương </h6>
-                            <small class="text-muted"> Chăm sóc viên</small>
-                        </div>
-                        
-
-                        <div class="col-10 col-sm-6 col-md-3 text-center">
-                            <img src="<?= BASE_URL ?>/images/team/phat.jpg" class="rounded-circle shadow-sm mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="Customer Support">
-                            <h6> Nguyễn Tấn Phát </h6>
-                            <small class="text-muted"> Chăm sóc viên </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Nút điều hướng -->
+        <!-- Nút điều hướng -->
             <button class="carousel-control-prev" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </button>
