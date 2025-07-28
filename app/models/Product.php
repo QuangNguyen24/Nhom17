@@ -229,7 +229,7 @@ foreach ($result as $row) {
     $ids[] = $row['id'];
 }
 ids[] = $row['id'];
-    }
+    
 
     return $ids;
 }
