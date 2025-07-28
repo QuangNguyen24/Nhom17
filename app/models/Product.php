@@ -229,9 +229,7 @@ foreach ($result as $row) {
     $ids[] = $row['id'];
 }
 ids[] = $row['id'];
-    
-
-    return $ids;
+     return $ids;
 }
 
 
@@ -330,7 +328,4 @@ public function getByType($type, $filters = []) {
         }
     ];
 }
-
-   
-    
 }
