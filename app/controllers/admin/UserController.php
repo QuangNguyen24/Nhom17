@@ -8,7 +8,8 @@ class UserController extends Controller
     public function index()
     {
         $userModel = $this->model('User');
-        $users = $userModel->getAll();
+        $users = User::getAll(); // Gọi static
+
         $this->view('admin/user/index', ['users' => $users]);
     }
 
