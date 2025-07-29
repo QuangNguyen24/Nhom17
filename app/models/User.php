@@ -14,11 +14,12 @@ public function getByUsername($username) {
     $stmt->execute(['username' => $username]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-    public static function all() {
-        $conn = Database::connect();
-        $stmt = $conn->query("SELECT * FROM users");
-        return $stmt->fetchAll();
-    }
+public static function getAll() {
+    $conn = Database::connect();
+    $stmt = $conn->query("SELECT * FROM users");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
     public static function findByEmail($email) {
         $conn = Database::connect();
