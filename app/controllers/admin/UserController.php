@@ -2,6 +2,7 @@
 namespace admin;
 
 use Controller;
+use User;
 
 class UserController extends Controller
 {
